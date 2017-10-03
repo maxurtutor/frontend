@@ -1,2 +1,2 @@
-# rest
-RestJs Tutorial
+# Frontend
+Frontend Tutorial

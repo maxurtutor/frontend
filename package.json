@@ -1,10 +1,10 @@
 {
-  "name": "webpack-babel",
+  "name": "frontend",
   "version": "1.0.0",
-  "description": "description",
+  "description": "Frontend Tutorial",
   "author": "Maxim Yunusov",
   "license": "MIT",
-  "main": "index.html",
+  "main": "build/dist/frontend.browser.min.js",
   "scripts": {
     "start": "webpack-dev-server --config config/webpack.config.js",
     "lint": "eslint src",
@@ -13,6 +13,10 @@
     "build-dev": "webpack -d --config config/webpack.config.js",
     "build-prod": "cross-env NODE_ENV=production webpack -p --config config/webpack.config.js",
     "postbuild": "copyfiles index.html dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maxurtutor/frontend.git"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
