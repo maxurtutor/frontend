@@ -45,7 +45,7 @@ const config = {
         path: path.resolve(relativeOutputPath),
         filename: finalPackageName,
         // export itself to a global var
-        libraryTarget: "umd",
+        libraryTarget: 'umd',
         // name of the global var
         library: globalLibraryName,
         umdNamedDefine: true,
@@ -61,11 +61,18 @@ const config = {
     module: {
         rules: [
             {
+                enforce: 'pre',
                 test: /\.jsx?$/,
-                // Skip any files outside of `src` directory
                 include: /src/,
                 exclude: /node_modules/,
-                // loaders depending on target (ES6 or ES5)
+                use: [
+                    {loader: 'eslint-loader'}
+                ]
+            },
+            {
+                test: /\.jsx?$/,
+                include: /src/,
+                exclude: /node_modules/,
                 use: [
                     {loader: 'babel-loader'}
                 ]
