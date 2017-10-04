@@ -99,7 +99,39 @@ const config = {
             {
                 test:   /\.css$/,
                 loader: 'style-loader!css-loader!postcss-loader'
-            }
+            },
+            {
+                test: [/\.wexbim$/, /\.docx$/, /\.csv$/, /\.mp4$/, /\.xlsx$/, /\.doc$/, /\.avi$/, /\.webm$/, /\.mov$/, /\.mp3$/, /\.pdf$/],
+                use: [
+                    'file-loader',
+                ],
+            },
+            {
+                test: /\.(png|jpg)$/,
+                use: [
+                    'url-loader?limit=200000',
+                ],
+            },
+            {
+                test: /\.(gif)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            query: {
+                                name: 'assets/[name].[ext]',
+                            },
+                        },
+                    },
+                ],
+            },
+            {
+                test: /\.jsx\.html$/,
+                exclude: /node_modules/,
+                use: [
+                    'babel!react-pure-html-component',
+                ],
+            },
         ]
     },
     plugins: [
