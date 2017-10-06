@@ -1,0 +1,28 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "modules": false
+      }
+    ],
+    "stage-0",
+    "react"
+  ],
+  "env": {
+    "test": {
+      "presets": [
+        [
+          "env"
+        ],
+        "stage-0",
+        "react"
+      ]
+    }
+  },
+  "plugins": [
+    "transform-runtime",
+    "react-hot-loader/babel",
+    "es6-promise"
+  ]
+}
