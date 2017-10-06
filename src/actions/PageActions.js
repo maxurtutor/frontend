@@ -3,7 +3,8 @@ import {
     GET_PHOTOS_SUCCESS,
     GET_PHOTOS_ERROR
 } from '../constants/Page'
-import Promise from 'es6-promise-promise';
+
+import Promise from 'es6-promise';
 
 export const getPhotos = year => dispatch => {
     dispatch({

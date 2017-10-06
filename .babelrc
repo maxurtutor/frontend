@@ -1,12 +1,23 @@
 {
   "presets": [
-    ["env", {"modules": false}],
+    [
+      "env",
+      {
+        "modules": false
+      }
+    ],
     "stage-0",
     "react"
   ],
   "env": {
     "test": {
-      "presets": [["env"], "stage-0", "react"]
+      "presets": [
+        [
+          "env"
+        ],
+        "stage-0",
+        "react"
+      ]
     }
   },
   "plugins": [

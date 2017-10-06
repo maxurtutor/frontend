@@ -89,7 +89,7 @@ const config = {
                 ]
             },
             {
-                test: /\.jsx?$/,
+                test:  /\.jsx?$/ ,
                 include: /src/,
                 exclude: /node_modules/,
                 use: [
@@ -149,10 +149,6 @@ const config = {
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NamedModulesPlugin(),
         new webpack.NoEmitOnErrorsPlugin(),
-
-        new webpack.ProvidePlugin(
-                {Promise: 'es6-promise-promise'}
-                )
     ],
 
     devServer: {
