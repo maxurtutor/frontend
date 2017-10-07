@@ -11,7 +11,7 @@
     "prebuild": "rimraf build",
     "build-dev": "webpack -d --config config/webpack.config.js",
     "build-prod": "cross-env NODE_ENV=production webpack -p --config config/webpack.config.js",
-    "postbuild": "copyfiles index.html dist"
+    "postbuild": "copyfiles index.html build"
   },
   "repository": {
     "type": "git",
@@ -53,6 +53,8 @@
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+    "copyfiles": "^1.2.0",
+    "cross-env": "^5.0.5",
     "css-loader": "^0.28.7",
     "eslint": "^3.19.0",
     "eslint-loader": "^1.9.0",
