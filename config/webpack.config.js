@@ -14,11 +14,11 @@ if (DEPLOYING) {
     // update output path
     relativeOutputPath = 'build';
     // update package name to an minified version
-    finalPackageName = `${packageName}.min.js`;
+    finalPackageName = `${packageName}.bundle.min.js`;
 } else {
     relativeOutputPath = 'build';
     // default package name
-    finalPackageName = `${packageName}.es5.js`;
+    finalPackageName = `${packageName}.bundle.es5.js`;
 }
 
 const config = {
@@ -56,15 +56,50 @@ const config = {
     module: {
         rules: [
             {
+                enforce: 'pre',
                 test: /\.jsx?$/,
                 include: /src/,
                 exclude: /node_modules/,
-                use: [{loader: 'babel-loader'}]
+                use: [
+                    {loader: 'eslint-loader'}
+                ]
+            },
+            {
+                test: /\.jsx?$/,
+                include: /src/,
+                exclude: /node_modules/,
+                loader: 'babel-loader'
             },
             {
                 test: /\.css$/,
                 loader: 'style-loader!css-loader!postcss-loader'
             },
+            {
+                test: /\.(png|jpg)$/,
+                use: [
+                    'url-loader?limit=200000',
+                ],
+            },
+            {
+                test: /\.(gif)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            query: {
+                                name: 'assets/[name].[ext]',
+                            },
+                        },
+                    },
+                ],
+            },
+            {
+                test: /\.jsx\.html$/,
+                exclude: /node_modules/,
+                use: [
+                    'babel!react-pure-html-component',
+                ],
+            }
         ]
     },
     externals: {
