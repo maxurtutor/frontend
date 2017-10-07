@@ -77,6 +77,12 @@ const config = {
                 loader: 'style-loader!css-loader!postcss-loader'
             },
             {
+                test: [/\.wexbim$/, /\.docx$/, /\.csv$/, /\.mp4$/, /\.xlsx$/, /\.doc$/, /\.avi$/, /\.webm$/, /\.mov$/, /\.mp3$/, /\.pdf$/],
+                use: [
+                    'file-loader',
+                ],
+            },
+            {
                 test: /\.(png|jpg)$/,
                 use: [
                     'url-loader?limit=200000',
