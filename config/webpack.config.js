@@ -1,6 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
+const StyleLintPlugin = require('stylelint-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
+const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 const packageName = require('../package.json').name;
 
 const DEPLOYING = process.env.NODE_ENV === 'production';
@@ -109,14 +111,21 @@ const config = {
         console: '{}'
     },
     plugins: [
+        //new BundleAnalyzerPlugin({analyzerMode: 'static'}),
         new WebpackNotifierPlugin({alwaysNotify: true}),
-        // scope hoisting plugin
         new webpack.optimize.ModuleConcatenationPlugin(),
+        // scope hoisting plugin
         new webpack.optimize.OccurrenceOrderPlugin(),
-
         new webpack.HotModuleReplacementPlugin(),
+
         new webpack.NamedModulesPlugin(),
         new webpack.NoEmitOnErrorsPlugin(),
+
+        new StyleLintPlugin({
+            configFile: '.stylelintrc',
+            files: 'src/main/js/styles/*.css',
+            quiet: false
+        }),
 
         new webpack.DefinePlugin({
             'process.env': {NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development')},
