@@ -2,6 +2,8 @@
 
 !/.gitignore
 !/.babelrc
+!/.eslintrc
+!/.stylelintrc
 *.iml
 
 build
@@ -9,3 +11,4 @@ node_modules
 package-lock.json
 
 __snapshots__
+
