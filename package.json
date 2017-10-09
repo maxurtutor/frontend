@@ -10,8 +10,7 @@
     "test": "jest",
     "prebuild": "rimraf build",
     "build-dev": "cross-env NODE_ENV=development webpack -d --config config/webpack.config.js --progress",
-    "build-prod": "cross-env NODE_ENV=production webpack -p --config config/webpack.config.js --progress",
-    "postbuild": "copyfiles index.html build"
+    "build-prod": "cross-env NODE_ENV=production webpack -p --config config/webpack.config.js --progress"
   },
   "repository": {
     "type": "git",

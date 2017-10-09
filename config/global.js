@@ -11,18 +11,13 @@ const WebpackNotifierPlugin = require('webpack-notifier');
 const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 const packageName = require('../package.json').name;
 
-
-let relativeOutputPath;
 let finalPackageName;
 
 const DEPLOYING = process.env.NODE_ENV === 'production';
 if (DEPLOYING) {
-    // update output path
-    relativeOutputPath = 'build';
     // update package name to an minified version
     finalPackageName = `${packageName}.bundle.min.js`;
 } else {
-    relativeOutputPath = 'build';
     // default package name
     finalPackageName = `${packageName}.bundle.es5.js`;
 }
@@ -31,7 +26,6 @@ module.exports = function (_path) {
 
     // the entry filename of the library (inside src)
     const entryFilename = 'index.js';
-    const rootAssetPath = _path + 'app';
 
     return {
         node: {
@@ -40,22 +34,12 @@ module.exports = function (_path) {
         },
 
         entry: [
-            'react-hot-loader/patch',
-            // activate HMR for React
-            'webpack-dev-server/client?http://localhost:3000',
-            // bundle the client for webpack-dev-server
-            // and connect to the provided endpoint
-            'webpack/hot/only-dev-server',
-            // the entry point of our app
-            entryFilename,
+            entryFilename
         ],
 
-        // Output the bundled JS to dist/app.js
         output: {
-            path: path.resolve(relativeOutputPath),
+            path: _path,
             filename: finalPackageName,
-            // webpack dev server hot reload path
-            publicPath: relativeOutputPath
         },
         resolve: {
             // Look for modules in .js(x) files first, then .js(x)
@@ -63,13 +47,13 @@ module.exports = function (_path) {
             // Add 'src' to our modules, as all our app code will live in there, so Webpack should look in there for modules
             modules: ['src/main/js', 'node_modules'],
             alias: {
-                _svg: path.join(_path, 'app', 'assets', 'svg'),
-                _data: path.join(_path, 'app', 'data'),
-                _fonts: path.join(_path, 'app', 'assets', 'fonts'),
-                _modules: path.join(_path, 'app', 'modules'),
-                _images: path.join(_path, 'app', 'assets', 'images'),
-                _stylesheets: path.join(_path, 'app', 'assets', 'stylesheets'),
-                _templates: path.join(_path, 'app', 'assets', 'templates')
+                _svg: path.join(_path, 'assets', 'svg'),
+                _data: path.join(_path, 'data'),
+                _fonts: path.join(_path, 'assets', 'fonts'),
+                _modules: path.join(_path, 'modules'),
+                _images: path.join(_path, 'assets', 'images'),
+                _stylesheets: path.join(_path, 'assets', 'stylesheets'),
+                _templates: path.join(_path, 'assets', 'templates')
             }
         },
 
@@ -136,7 +120,10 @@ module.exports = function (_path) {
             console: '{}'
         },
         plugins: [
-            //new BundleAnalyzerPlugin({analyzerMode: 'static'}),
+            new BundleAnalyzerPlugin({
+                analyzerMode: 'static',
+                openAnalyzer: false
+            }),
             new WebpackNotifierPlugin({alwaysNotify: true}),
             new webpack.optimize.ModuleConcatenationPlugin(),
             // scope hoisting plugin
@@ -152,24 +139,19 @@ module.exports = function (_path) {
                 quiet: false
             }),
 
-/*            new webpack.optimize.CommonsChunkPlugin({
-                names: ['vendors', 'assets/js/vendors.[hash].js'],
-                minChunks: Infinity
-            }),*/
-
+            /*            new webpack.optimize.CommonsChunkPlugin({
+                            names: ['vendors', 'assets/js/vendors.[hash].js'],
+                            minChunks: Infinity
+                        }),
             new TextPlugin('assets/css/[name].[hash].css'),
-            new Manifest(path.join(_path, 'manifest.json'), {
-                rootAssetPath: rootAssetPath
-            }),
-/*
+                       new Manifest(path.join(_path, 'manifest.json'), {
+                            rootAssetPath: rootAssetPath
+                        }),*/
             new HtmlPlugin({
-                title: 'Test APP',
-                chunks: ['application', 'vendors'],
+                title: 'Frontend Template',
                 filename: 'index.html',
-                template: path.join(_path, 'index.html')
+                template: path.resolve('src/template/index.html')
             })
-*/
-
         ],
     }
 };

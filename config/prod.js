@@ -8,7 +8,7 @@ module.exports = function(_path) {
         context: _path,
         devtool: 'cheap-source-map',
         output: {
-            publicPath: '/'
+            publicPath: _path
         }
     }
 };
