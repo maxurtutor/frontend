@@ -13,7 +13,7 @@ export const getPhotos = year => dispatch => {
             (resolve) => {
                 setTimeout(() => {
                     resolve();
-                }, 200)
+                }, 1000)
             }
     ).then(() => {
         dispatch({

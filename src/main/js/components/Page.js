@@ -1,5 +1,14 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types';
+import RaisedButton from 'material-ui/RaisedButton';
+import CircularProgress from 'material-ui/CircularProgress';
+import {Card, CardHeader, CardMedia} from 'material-ui/Card';
+
+const CircularProgressExampleSimple = () => (
+        <div>
+            <CircularProgress />
+        </div>
+);
 
 export default class Page extends Component {
     onYearBtnClick(e) {
@@ -8,18 +17,23 @@ export default class Page extends Component {
     render() {
         const { year, photos, fetching } = this.props;
         return <div className='ib page'>
-            <p>
-                <button className='btn' onClick={::this.onYearBtnClick}>2016</button>{' '}
-                <button className='btn' onClick={::this.onYearBtnClick}>2015</button>{' '}
-                <button className='btn' onClick={::this.onYearBtnClick}>2014</button>{' '}
-            </p>
-            <h3>{year} год</h3>
-            {
-                fetching ?
-                        <p>Загрузка...</p>
-                        :
-                        <p>У тебя {photos.length} фото.</p>
-            }
+                <RaisedButton onClick={::this.onYearBtnClick}>2016</RaisedButton>{' '}
+                <RaisedButton onClick={::this.onYearBtnClick}>2015</RaisedButton>{' '}
+                <RaisedButton onClick={::this.onYearBtnClick}>2014</RaisedButton>{' '}
+
+            <Card>
+                <CardHeader title={`${year} год`}/>
+                <CardMedia>
+                    {
+                        fetching ?
+                                <CircularProgressExampleSimple/>
+                                :
+                                <p>У тебя {photos.length} фото.</p>
+                    }
+                </CardMedia>
+
+            </Card>
+
         </div>
     }
 }
