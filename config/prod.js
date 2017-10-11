@@ -3,12 +3,12 @@
 /**
  * Production config
  */
-module.exports = function(_path) {
+module.exports = function(PATHS) {
     return {
-        context: _path,
+        context: PATHS.target,
         devtool: 'cheap-source-map',
         output: {
-            publicPath: _path
+            publicPath: PATHS.target
         }
     }
 };

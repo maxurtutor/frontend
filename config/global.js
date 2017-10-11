@@ -3,7 +3,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const Manifest = require('manifest-revision-webpack-plugin');
-const TextPlugin = require('extract-text-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 
 const StyleLintPlugin = require('stylelint-webpack-plugin');
@@ -22,7 +21,7 @@ if (DEPLOYING) {
     finalPackageName = `${packageName}.bundle.es5.js`;
 }
 
-module.exports = function (_path) {
+module.exports = function (PATHS) {
 
     // the entry filename of the library (inside src)
     const entryFilename = 'index.js';
@@ -33,27 +32,28 @@ module.exports = function (_path) {
             fs: 'empty'
         },
 
-        entry: [
-            entryFilename
-        ],
+        entry: {
+            app: entryFilename
+        },
 
         output: {
-            path: _path,
-            filename: finalPackageName,
+            path: PATHS.target,
+            filename: `[name].${finalPackageName}.js`,
+            chunkFilename: '[id].[chunkhash].js'
         },
         resolve: {
             // Look for modules in .js(x) files first, then .js(x)
             extensions: ['.js', '.jsx'],
             // Add 'src' to our modules, as all our app code will live in there, so Webpack should look in there for modules
-            modules: ['src/main/js', 'node_modules'],
+            modules: [path.join(PATHS.source, 'main', 'js'), 'node_modules'],
             alias: {
-                _svg: path.join(_path, 'assets', 'svg'),
-                _data: path.join(_path, 'data'),
-                _fonts: path.join(_path, 'assets', 'fonts'),
-                _modules: path.join(_path, 'modules'),
-                _images: path.join(_path, 'assets', 'images'),
-                _stylesheets: path.join(_path, 'assets', 'stylesheets'),
-                _templates: path.join(_path, 'assets', 'templates')
+                _svg: path.join(PATHS.target, 'assets', 'svg'),
+                _data: path.join(PATHS.target, 'data'),
+                _fonts: path.join(PATHS.target, 'assets', 'fonts'),
+                _modules: path.join(PATHS.target, 'modules'),
+                _images: path.join(PATHS.target, 'assets', 'images'),
+                _stylesheets: path.join(PATHS.target, 'assets', 'stylesheets'),
+                _templates: path.join(PATHS.target, 'assets', 'templates')
             }
         },
 
@@ -135,22 +135,17 @@ module.exports = function (_path) {
 
             new StyleLintPlugin({
                 configFile: '.stylelintrc',
-                files: 'src/main/js/styles/*.css',
+                files:  path.join(PATHS.source, 'main', 'js', 'styles', '*.css'),
                 quiet: false
             }),
+            new Manifest(path.join(PATHS.target, 'manifest.json'), {
+                rootAssetPath: path.join(PATHS.source, 'main', 'js')
+            }),
 
-            /*            new webpack.optimize.CommonsChunkPlugin({
-                            names: ['vendors', 'assets/js/vendors.[hash].js'],
-                            minChunks: Infinity
-                        }),
-            new TextPlugin('assets/css/[name].[hash].css'),
-                       new Manifest(path.join(_path, 'manifest.json'), {
-                            rootAssetPath: rootAssetPath
-                        }),*/
             new HtmlPlugin({
                 title: 'Frontend Template',
                 filename: 'index.html',
-                template: path.resolve('src/template/index.html')
+                template:  path.join(PATHS.source, 'template', 'index.html') 
             })
         ],
     }
