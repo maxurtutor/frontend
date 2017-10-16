@@ -10,7 +10,8 @@ export const getPhotos = year => ({
     use: 'promise',
     types: [GET_PHOTOS_REQUEST, GET_PHOTOS_SUCCESS, GET_PHOTOS_ERROR],
     payload: year,
-    fun: loadPhotos
+    fun: () => loadPhotos(year)
 });
 
 
+                                
