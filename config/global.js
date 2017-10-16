@@ -2,6 +2,7 @@
 
 const path = require('path');
 const webpack = require('webpack');
+const {HotModuleReplacementPlugin, NamedModulesPlugin, NoEmitOnErrorsPlugin} = require('webpack');
 const Manifest = require('manifest-revision-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 
@@ -128,10 +129,10 @@ module.exports = function (PATHS) {
             new webpack.optimize.ModuleConcatenationPlugin(),
             // scope hoisting plugin
             new webpack.optimize.OccurrenceOrderPlugin(),
-            new webpack.HotModuleReplacementPlugin(),
+            new HotModuleReplacementPlugin(),
 
-            new webpack.NamedModulesPlugin(),
-            new webpack.NoEmitOnErrorsPlugin(),
+            new NamedModulesPlugin(),
+            new NoEmitOnErrorsPlugin(),
 
             new StyleLintPlugin({
                 configFile: '.stylelintrc',
