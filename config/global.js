@@ -16,10 +16,10 @@ let finalPackageName;
 const DEPLOYING = process.env.NODE_ENV === 'production';
 if (DEPLOYING) {
     // update package name to an minified version
-    finalPackageName = `${packageName}.bundle.min.js`;
+    finalPackageName = `${packageName}.bundle.min`;
 } else {
     // default package name
-    finalPackageName = `${packageName}.bundle.es5.js`;
+    finalPackageName = `${packageName}.bundle.es5`;
 }
 
 module.exports = function (PATHS) {
@@ -76,8 +76,26 @@ module.exports = function (PATHS) {
                     loader: 'babel-loader'
                 },
                 {
+                    test: /\.(gif)$/,
+                    use: [
+                        'file-loader'
+                    ],
+                },
+                {
                     test: /\.css$/,
                     loader: 'style-loader!css-loader!postcss-loader'
+                },
+                {
+                    test: /\.less$/,
+                    use: [{
+                        loader: 'style-loader'
+                    }, {
+                        loader: 'css-loader'
+                    }, {
+                        loader: 'less-loader', options: {
+                            supportsSync: false
+                        }
+                    }]
                 },
                 {
                     test: [/\.wexbim$/, /\.docx$/, /\.csv$/, /\.mp4$/, /\.xlsx$/, /\.doc$/, /\.avi$/, /\.webm$/, /\.mov$/, /\.mp3$/, /\.pdf$/],
@@ -89,19 +107,6 @@ module.exports = function (PATHS) {
                     test: /\.(png|jpg)$/,
                     use: [
                         'url-loader?limit=200000',
-                    ],
-                },
-                {
-                    test: /\.(gif)$/,
-                    use: [
-                        {
-                            loader: 'file-loader',
-                            options: {
-                                query: {
-                                    name: 'assets/[name].[ext]',
-                                },
-                            },
-                        },
                     ],
                 },
                 {
@@ -146,7 +151,7 @@ module.exports = function (PATHS) {
             new HtmlPlugin({
                 title: 'Frontend Template',
                 filename: 'index.html',
-                template:  path.join(PATHS.source, 'template', 'index.html') 
+                template:  path.join(PATHS.source, 'template', 'index.html')
             })
         ],
     }

@@ -1,0 +1,64 @@
+@mobile-min-width: 320px;
+@tablet-min-width: 768px;
+
+@tablet: ~"only screen and (min-width: @{tablet-min-width})";
+
+@retina: ~"only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-resolution: 144dpi)";
+
+.default-transition(...) {
+  @value: ~`"@{arguments}".replace(/[\[\]]/g, '')`;
+  transition: @value 0.1s ease-in-out;
+}
+
+.image-2x(@image, @repeat: no-repeat, @dataURI: false) {
+  @filename  : ~`/(.*)\.(jpg|jpeg|png|gif)/.exec(@{image})[1]`;
+  @extension : ~`/(.*)\.(jpg|jpeg|png|gif)/.exec(@{image})[2]`;
+  background-image: url('@{filename}.@{extension}');
+  background-repeat: @repeat;
+
+  @media @retina {
+    background-image: url('@{filename}@2x.@{extension}');
+
+    @svgImage: '@{filename}.svg';
+    @content: data-uri(@svgImage);
+    & when not ("@{content}" = "url('@{svgImage}')") {
+      background-image: url('@{svgImage}'), linear-gradient(transparent, transparent);
+    }
+    background-size: image-size(@image);
+  };
+}
+
+.image-2x(@image, @repeat: no-repeat, @dataURI) when (@dataURI = true) {
+  @filename  : ~`/(.*)\.(jpg|jpeg|png|gif)/.exec(@{image})[1]`;
+  @extension : ~`/(.*)\.(jpg|jpeg|png|gif)/.exec(@{image})[2]`;
+  background-image: data-uri('@{filename}.@{extension}');
+  background-repeat: @repeat;
+
+  @media @retina {
+    background-image: data-uri('@{filename}@2x.@{extension}');
+
+    @svgImage: '@{filename}.svg';
+    @content: data-uri(@svgImage);
+    & when not ("@{content}" = "url('@{svgImage}')") {
+      background-image: data-uri('@{svgImage}'), linear-gradient(transparent, transparent);
+    }
+
+    background-size: image-size(@image);
+  };
+}
+
+.image-2x-block(@image, @repeat: no-repeat, @dataURI: false) {
+  .image-2x(@image, @repeat, @dataURI);
+  width: image-width(@image);
+  height: image-height(@image);
+}
+
+.clearfix {
+  &:after {
+    content: " "; /* Older browser do not support empty content */
+    visibility: hidden;
+    display: block;
+    height: 0;
+    clear: both;
+  }
+}
