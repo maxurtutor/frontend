@@ -8,12 +8,12 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 class App extends Component {
     render() {
-        const {user, page} = this.props;
+        const {user, page, loader} = this.props;
         const {getPhotos} = this.props.pageActions;
 
         return <MuiThemeProvider>
             <div className='row'>
-                <Page photos={page.photos} year={page.year} getPhotos={getPhotos} fetching={page.fetching}/>
+                <Page photos={page.photos} year={page.year} getPhotos={getPhotos} fetching={loader.fetching}/>
                 <User name={user.name}/>
             </div>
         </MuiThemeProvider>
@@ -22,7 +22,8 @@ class App extends Component {
 
 const mapStateToProps = (state) => ({
     user: state.user,
-    page: state.page
+    page: state.page,
+    loader: state.loader,
 });
 
 const mapDispatchToProps = (dispatch) => ({

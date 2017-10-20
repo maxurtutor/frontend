@@ -22,7 +22,7 @@ export default class Page extends Component {
                 <CardHeader title={`${year} год`}/>
                 <CardMedia>
                     {
-                        fetching ?
+                        fetching > 0 ?
                                 <Loader/>
                                 :
                                 <p>У тебя {photos.length} фото.</p>
