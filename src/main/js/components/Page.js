@@ -5,32 +5,37 @@ import {Card, CardHeader, CardMedia} from 'material-ui/Card';
 
 export default class Page extends Component {
 
-    onYearBtnClick(e) {
-        this.props.getPhotos(+e.target.innerText)
+    onYearBtnClick(event) {
+        this.props.getPhotos(+event.target.innerText)
     }
+
     render() {
-        const { year, photos, fetching } = this.props;
+        const {year, photos, fetching} = this.props;
 
         const Loader = () => <div className='loader'/>;
 
-        return <div className='ib page'>
-                <RaisedButton onClick={::this.onYearBtnClick}>2016</RaisedButton>{' '}
-                <RaisedButton onClick={::this.onYearBtnClick}>2015</RaisedButton>{' '}
-                <RaisedButton onClick={::this.onYearBtnClick}>2014</RaisedButton>{' '}
+        const YearBtn = (props) => (
+            <RaisedButton disabled={year === props.year} secondary={true}
+                          onClick={::this.onYearBtnClick}>{props.year}</RaisedButton>
+        );
 
+        return <div className='ib page'>
+            { [2014, 2015, 2016].map( (year) => <YearBtn key={year.toString()} year={year}/>) }
+            
             <Card>
                 <CardHeader title={`${year} год`}/>
                 <CardMedia>
                     {
                         fetching > 0 ?
+                            <div>
                                 <Loader/>
-                                :
-                                <p>У тебя {photos.length} фото.</p>
+                                <p>Загрузка...</p>
+                            </div>
+                            :
+                            <p>У тебя {photos.length} фото.</p>
                     }
                 </CardMedia>
-
             </Card>
-
         </div>
     }
 }
