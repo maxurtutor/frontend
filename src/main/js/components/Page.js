@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types';
-import RaisedButton from 'material-ui/RaisedButton';
-import {Card, CardHeader, CardMedia} from 'material-ui/Card';
+import Button from 'material-ui/Button';
+import Card, {CardContent} from 'material-ui/Card';
+import Typography from 'material-ui/Typography';
 
 export default class Page extends Component {
 
@@ -15,28 +16,31 @@ export default class Page extends Component {
         const Loader = () => <div className='loader'/>;
 
         const YearBtn = (props) => (
-                <RaisedButton disabled={year === props.year}
-                              secondary={true}
-                              label={props.year}
-                              onClick={::this.onYearBtnClick}/>
+            <Button raised
+                    disabled={year === props.year}
+                    onClick={::this.onYearBtnClick}>
+                {props.year}
+            </Button>
         );
 
-        return <div className='ib page'>
+        return <div>
             {[2014, 2015, 2016].map((year) => <YearBtn key={year.toString()} year={year}/>)}
 
             <Card>
-                <CardHeader title={`${year} год`}/>
-                <CardMedia>
+                <CardContent>
+                    <Typography type='body1'>
+                        {`${year} год`}
+                    </Typography>
                     {
                         fetching > 0 ?
-                                <div>
-                                    <Loader/>
-                                    <p>Загрузка...</p>
-                                </div>
-                                :
-                                <p>У тебя {photos.length} фото.</p>
+                            <div>
+                                <Loader/>
+                                <p>Загрузка...</p>
+                            </div>
+                            :
+                            <p>У тебя {photos.length} фото.</p>
                     }
-                </CardMedia>
+                </CardContent>
             </Card>
         </div>
     }
