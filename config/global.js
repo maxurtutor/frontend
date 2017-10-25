@@ -94,6 +94,10 @@ module.exports = function (PATHS) {
                     ],
                 },
                 {
+                    test: /\.(eot|svg|ttf|woff|woff2)$/,
+                    loader: 'url-loader'
+                },
+                {
                     test: /\.(png|jpg)$/,
                     use: [
                         'url-loader?limit=200000',

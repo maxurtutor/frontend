@@ -41,7 +41,7 @@ const process = function (action, next, store) {
             dispatch({type: HIDE_LOADER});
         })
         .catch(error => {
-            console.log(payload);
+            console.log(error);
             next({
                     ...action,
                     type: failureType,
