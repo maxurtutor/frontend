@@ -43,19 +43,9 @@ module.exports = function (PATHS) {
             chunkFilename: '[id].[chunkhash].js'
         },
         resolve: {
-            // Look for modules in .js(x) files first, then .js(x)
-            extensions: ['.js', '.jsx'],
+            extensions: ['.js', '.jsx', '.css', '.less'],
             // Add 'src' to our modules, as all our app code will live in there, so Webpack should look in there for modules
             modules: [path.join(PATHS.source, 'main', 'js'), 'node_modules'],
-            alias: {
-                _svg: path.join(PATHS.target, 'assets', 'svg'),
-                _data: path.join(PATHS.target, 'data'),
-                _fonts: path.join(PATHS.target, 'assets', 'fonts'),
-                _modules: path.join(PATHS.target, 'modules'),
-                _images: path.join(PATHS.target, 'assets', 'images'),
-                _stylesheets: path.join(PATHS.target, 'assets', 'stylesheets'),
-                _templates: path.join(PATHS.target, 'assets', 'templates')
-            }
         },
 
         module: {
