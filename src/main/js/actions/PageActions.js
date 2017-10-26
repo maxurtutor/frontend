@@ -1,3 +1,5 @@
+// @flow
+
 import {
     GET_PHOTOS_REQUEST,
     GET_PHOTOS_SUCCESS,

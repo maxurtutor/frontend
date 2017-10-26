@@ -1,3 +1,5 @@
+// @flow
+
 import {
     SHOW_LOADER,
     HIDE_LOADER

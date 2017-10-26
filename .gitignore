@@ -1,12 +1,14 @@
 .*
 
 !/.gitignore
+!/.flowconfig
 !/.babelrc
 !/.eslintrc
 !/.stylelintrc
 *.iml
 
 build
+flow-typed
 node_modules
 package-lock.json
 

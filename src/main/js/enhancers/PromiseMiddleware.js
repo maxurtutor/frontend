@@ -1,8 +1,9 @@
+// @flow
+
 import {
     SHOW_LOADER,
     HIDE_LOADER
 } from '../constants/Commons'
-
 
 const process = function (action, next, store) {
 

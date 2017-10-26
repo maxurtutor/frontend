@@ -1,3 +1,5 @@
+// @flow
+
 const initialState = {
     name: 'Аноним'
 };

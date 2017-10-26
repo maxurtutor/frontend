@@ -1,3 +1,5 @@
+// @flow
+
 import PropTypes from 'prop-types';
 import {withStyles} from 'material-ui/styles';
 import {Component} from 'react'

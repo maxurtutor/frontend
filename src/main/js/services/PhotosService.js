@@ -1,4 +1,6 @@
-export const loadPhotos = (year) => new Promise(
+// @flow
+
+export const loadPhotos = (year: number) => new Promise(
         (resolve) => {
             setTimeout(() => {
                 resolve();
