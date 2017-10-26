@@ -10,8 +10,6 @@ import Typography from 'material-ui/Typography';
 import Avatar from 'material-ui/Avatar';
 import PersonIcon from 'material-ui-icons/Person';
 
-
-
 const styles = theme => ({
     button: {
         margin: theme.spacing.unit,
