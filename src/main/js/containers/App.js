@@ -1,9 +1,10 @@
-// @flow weak
+// @flow
+'use strict';
 
 import React, {Component} from 'react'
-import PropTypes from 'prop-types';
 
 import {bindActionCreators} from 'redux'
+import type {ActionCreator} from 'redux'
 import {connect} from 'react-redux'
 
 import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
@@ -13,9 +14,7 @@ import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 
-import lightGreen from 'material-ui/colors/lightGreen';
-import purple from 'material-ui/colors/purple';
-import red from 'material-ui/colors/red';
+import {lightGreen, purple, red} from 'material-ui/colors';
 
 import User from '../components/User'
 import Page from '../components/Page'
@@ -86,7 +85,19 @@ const styles = theme => ({
     },
 });
 
-class App extends Component {
+type Props = {
+    +classes: any,
+    +pageActions: ActionCreator<any, any>,
+    +user: any,
+    +page: any,
+    +loader: any,
+}
+
+type State = {
+    open: boolean,
+}
+
+class App extends Component<Props, State> {
 
     constructor(props) {
         super(props);
@@ -130,7 +141,6 @@ class App extends Component {
             </div>
         </MuiThemeProvider>
     }
-
 }
 
 const mapStateToProps = (state) => ({
@@ -142,9 +152,5 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     pageActions: bindActionCreators(pageActions, dispatch)
 });
-
-App.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(App));

@@ -23,7 +23,10 @@
     }
   },
   "plugins": [
+    "syntax-flow",
     "transform-runtime",
+    "transform-flow-strip-types",
+    "transform-flow-comments",
     "react-hot-loader/babel",
     "es6-promise"
   ]

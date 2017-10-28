@@ -1,16 +1,19 @@
 // @flow
+'use strict';
 
 import React, {Component} from 'react'
-import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 import Card, {CardContent} from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 
-export default class Page extends Component {
+type Props = {
+    +year: number,
+    +photos: Array<*>,
+    +fetching: number,
+    +getPhotos: (number) => void,
+}
 
-    onYearBtnClick(event) {
-        this.props.getPhotos(+event.target.innerText)
-    }
+export default class Page extends Component<Props> {
 
     render() {
         const {year, photos, fetching} = this.props;
@@ -20,13 +23,13 @@ export default class Page extends Component {
         const YearBtn = (props) => (
             <Button raised
                     disabled={year === props.year}
-                    onClick={::this.onYearBtnClick}>
+                    onClick={props.onClick}>
                 {props.year}
             </Button>
         );
 
         return <div>
-            {[2014, 2015, 2016].map((year) => <YearBtn key={year.toString()} year={year}/>)}
+            {[2014, 2015, 2016].map((year) => <YearBtn key={year.toString()} year={year} onClick={() => this.props.getPhotos(year)}/>)}
 
             <Card>
                 <CardContent>
@@ -47,9 +50,3 @@ export default class Page extends Component {
         </div>
     }
 }
-
-Page.propTypes = {
-    year: PropTypes.number.isRequired,
-    photos: PropTypes.array.isRequired,
-    getPhotos: PropTypes.func.isRequired
-};

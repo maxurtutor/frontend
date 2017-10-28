@@ -1,4 +1,5 @@
 // @flow
+'use strict';
 
 import {
     GET_PHOTOS_REQUEST,
@@ -6,20 +7,30 @@ import {
     GET_PHOTOS_ERROR
 } from '../constants/Page'
 
-const initialState = {
+type State = {
+    year: number,
+    photos: Array<any>
+}
+
+type Action = {
+    type: string,
+    payload: any
+}
+
+const initialState: State = {
     year: 2016,
     photos: []
 };
 
-export default function page(state = initialState, action) {
+export default function page(state: State = initialState, action: Action): State {
 
     switch (action.type) {
         case GET_PHOTOS_REQUEST:
-            return { ...state, year: action.payload };
+            return {...state, year: action.payload};
         case GET_PHOTOS_SUCCESS:
-            return { ...state, photos: action.payload };
+            return {...state, photos: action.payload};
         case GET_PHOTOS_ERROR:
-            return { ...state, photos: [] };
+            return {...state, photos: []};
         default:
             return state;
     }

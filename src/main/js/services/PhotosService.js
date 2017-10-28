@@ -1,6 +1,7 @@
 // @flow
+'use strict';
 
-export const loadPhotos = (year: number) => new Promise(
+export const loadPhotos = (year: number): Promise<any> => new Promise(
         (resolve) => {
             setTimeout(() => {
                 resolve();

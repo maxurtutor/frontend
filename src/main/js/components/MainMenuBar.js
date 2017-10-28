@@ -1,7 +1,7 @@
-// @flow weak
+// @flow
+'use strict';
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
@@ -19,7 +19,14 @@ const styles = () => ({
     },
 });
 
-function MainMenuBar(props) {
+type Props = {
+    +classes: any,
+    +open: boolean,
+    +onShowMenu: () => void,
+    +onHideMenu: () => void,
+}
+
+function MainMenuBar(props: Props) {
     const { classes, open, onShowMenu, onHideMenu } = props;
     return (
             <Toolbar>
@@ -41,12 +48,5 @@ function MainMenuBar(props) {
             </Toolbar>
     );
 }
-
-MainMenuBar.propTypes = {
-    classes: PropTypes.object.isRequired,
-    open: PropTypes.bool.isRequired,
-    onShowMenu: PropTypes.func.isRequired,
-    onHideMenu: PropTypes.func.isRequired,
-};
 
 export default withStyles(styles)(MainMenuBar);

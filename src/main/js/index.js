@@ -1,4 +1,5 @@
 // @flow
+'use strict';
 
 import 'babel-polyfill'
 import React from 'react'
@@ -11,9 +12,5 @@ import 'typeface-roboto'
 
 const store = configureStore();
 
-render(
-        <Provider store={store}>
-            <App />
-        </Provider>,
-        document.getElementById('root')
-);
+// $FlowFixMe
+render(<Provider store={store}><App /></Provider>, document.querySelector('#root'));

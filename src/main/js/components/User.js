@@ -1,15 +1,15 @@
 // @flow
+'use strict';
 
-import PropTypes from 'prop-types';
 import {withStyles} from 'material-ui/styles';
 import {Component} from 'react'
 
 import React from 'react';
 import Button from 'material-ui/Button';
 import Menu, {MenuItem} from 'material-ui/Menu';
+import Avatar from 'material-ui/Avatar';
 import Typography from 'material-ui/Typography';
 
-import Avatar from 'material-ui/Avatar';
 import PersonIcon from 'material-ui-icons/Person';
 
 const styles = theme => ({
@@ -24,14 +24,24 @@ const styles = theme => ({
     },
 });
 
-export class User extends Component {
+type Props = {
+    +classes: any,
+    +name: string
+}
+
+type State = {
+    anchorEl: ?EventTarget,
+    open: boolean,
+}
+
+export class User extends Component<Props, State> {
 
     state = {
         anchorEl: null,
         open: false,
     };
 
-    handleClick = event => {
+    handleClick = (event: Event) => {
         this.setState({open: true, anchorEl: event.currentTarget});
     };
 
@@ -70,11 +80,5 @@ export class User extends Component {
         )
     }
 }
-
-User.propTypes = {
-    classes: PropTypes.object.isRequired,
-    name: PropTypes.string.isRequired
-};
-
 
 export default withStyles(styles)(User);

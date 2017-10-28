@@ -1,4 +1,7 @@
 // @flow
+'use strict';
+
+import type {Dispatch} from 'redux';
 
 import {
     SHOW_LOADER,
@@ -53,7 +56,7 @@ const process = function (action, next, store) {
         });
 };
 
-const promiseMiddleware = (store) => next => action =>
+const promiseMiddleware = (store: any) => (next: Dispatch<*>) => (action: any) =>
     action.use === 'promise' ? process(action, next, store) : next(action);
 
 export default promiseMiddleware;

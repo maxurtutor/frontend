@@ -1,23 +1,26 @@
 [ignore]
 <PROJECT_ROOT>/build/.*
-<PROJECT_ROOT>/node_modules/.*
+<PROJECT_ROOT>/node_modules/material-ui/.*
 
 [include]
 
 [libs]
-# local/custom libdefs
+./flow/global.js
 ./flow
-;./node_modules/jss/flow-typed
 
 [options]
+strip_root=true
+
+module.name_mapper='.*\(.css\)' -> 'CSSModule'
+module.name_mapper='.*\(.less\)' -> 'CSSModule'
+module.name_mapper='^[./a-zA-Z0-9$_-]+\.\(bmp\|gif\|jpg\|jpeg\|png\|psd\|svg\|webp\|m4v\|mov\|mp4\|mpeg\|mpg\|webm\|aac\|aiff\|caf\|m4a\|mp3\|wav\|html\|pdf\)$' -> 'RelativeImageStub'
+
 esproposal.class_static_fields=enable
 esproposal.class_instance_fields=enable
 esproposal.export_star_as=enable
 esproposal.decorators=ignore
 
 unsafe.enable_getters_and_setters=true
-
-module.name_mapper='^flow-example-material-ui\/\(.*\)$' -> '<PROJECT_ROOT>/src/\1'
 
 suppress_type=$FlowFixMe
 suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe
