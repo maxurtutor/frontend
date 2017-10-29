@@ -22,6 +22,8 @@ import MainMenuBar from '../components/MainMenuBar'
 import MainMenu from '../components/MainMenu'
 import * as pageActions from '../actions/PageActions'
 
+import logo from '../../img/maxur-logo.png'
+
 const drawerMiniWidth = 60;
 const drawerFullWidth = 240;
 const headerHeight = 64;
@@ -125,6 +127,8 @@ class App extends Component<Props, State> {
 
                     <Drawer
                             type={'permanent'}
+                            onMouseEnter={this.showMenu}
+                            onMouseLeave={this.hideMenu}
                             classes={{
                                 paper: this.state.open ? classes.drawerFull : classes.drawerMini,
                             }}
@@ -135,6 +139,7 @@ class App extends Component<Props, State> {
                         <MainMenu open={this.state.open} onHideMenu={this.hideMenu} />
                     </Drawer>
                     <main className={classes.content}>
+                        <img style={{ width: 62, height: 92 }} src={logo}/>
                         <Page photos={page.photos} year={page.year} getPhotos={getPhotos} fetching={loader.fetching}/>
                     </main>
                 </div>

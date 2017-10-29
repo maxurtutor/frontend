@@ -40,7 +40,8 @@ module.exports = function (PATHS) {
         output: {
             path: PATHS.target,
             filename: `[name].${finalPackageName}.js`,
-            chunkFilename: '[id].[chunkhash].js'
+            chunkFilename: '[id].[chunkhash].js',
+            publicPath: PATHS.target
         },
         resolve: {
             extensions: ['.js', '.jsx', '.css', '.less'],
@@ -65,11 +66,8 @@ module.exports = function (PATHS) {
                     exclude: /node_modules/,
                     loader: 'babel-loader'
                 },
-                {
-                    test: /\.(gif)$/,
-                    use: [
-                        'file-loader'
-                    ],
+                { test: /.(ttf|eot|woff|woff2|png|ico|jpg|jpeg|gif|svg)$/i,
+                    loaders: ['file-loader?&name=assets/[ext]/[name].[hash].[ext]']
                 },
                 {
                     test: /\.css$/,
@@ -86,22 +84,6 @@ module.exports = function (PATHS) {
                             supportsSync: false
                         }
                     }]
-                },
-                {
-                    test: [/\.wexbim$/, /\.docx$/, /\.csv$/, /\.mp4$/, /\.xlsx$/, /\.doc$/, /\.avi$/, /\.webm$/, /\.mov$/, /\.mp3$/, /\.pdf$/],
-                    use: [
-                        'file-loader',
-                    ],
-                },
-                {
-                    test: /\.(eot|svg|ttf|woff|woff2)$/,
-                    loader: 'url-loader'
-                },
-                {
-                    test: /\.(png|jpg)$/,
-                    use: [
-                        'url-loader?limit=200000',
-                    ],
                 },
                 {
                     test: /\.jsx\.html$/,
