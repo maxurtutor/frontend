@@ -18,13 +18,17 @@ import {lightGreen, purple, red} from 'material-ui/colors';
 
 import User from '../components/User'
 import Page from '../components/Page'
+import CreateNewProjectDialog from '../components/CreateNewProjectDialog'
 import MainMenuBar from '../components/MainMenuBar'
 import MainMenu from '../components/MainMenu'
-import * as pageActions from '../actions/PageActions'
 
-const drawerMiniWidth = 60;
+import * as pageActions from '../actions/PageActions'
+import * as mainMenuActions from '../actions/MainMenuActions'
+
+import {HEADER_HEIGHT} from '../constants/Commons'
+
+const drawerMiniWidth = 48;
 const drawerFullWidth = 240;
-const headerHeight = 64;
 
 const theme = createMuiTheme({
     palette: {
@@ -48,7 +52,7 @@ const styles = theme => ({
     },
     appBar: {
         position: 'absolute',
-        height: headerHeight
+        height: HEADER_HEIGHT
     },
     drawerMini: {
         position: 'absolute',
@@ -67,13 +71,13 @@ const styles = theme => ({
         width: `calc(100% - ${drawerMiniWidth}px)`,
         marginLeft: drawerMiniWidth,
 
-        height: headerHeight
+        height: HEADER_HEIGHT
     },
 
     content: {
         backgroundColor: theme.palette.background.default,
         padding: theme.spacing.unit * 3,
-        height: `calc(100% - ${headerHeight}px)`,
+        height: `calc(100% - ${HEADER_HEIGHT}px)`,
         width: `calc(100% - ${drawerMiniWidth}px - 48px)`,
         marginLeft: drawerMiniWidth,
         [theme.breakpoints.up('sm')]: {
@@ -88,6 +92,7 @@ const styles = theme => ({
 type Props = {
     +classes: any,
     +pageActions: ActionCreator<any, any>,
+    +mainMenuActions: ActionCreator<any, any>,
     +user: any,
     +page: any,
     +loader: any,
@@ -95,21 +100,36 @@ type Props = {
 
 type State = {
     open: boolean,
+    timeout?: any;
 }
 
 class App extends Component<Props, State> {
 
     constructor(props) {
         super(props);
-        this.state = {open: false};
+        this.state = {open: false, timeout: null};
     }
 
-    showMenu = () => this.setState({open: true});
-    hideMenu = () => this.setState({open: false});
+    showMenu = () => {
+        if (this.state.timeout) {
+            clearTimeout(this.state.timeout)
+        }
+        this.setState({open: true, timeout: null});
+    };
+    hideMenu = () => {
+        if (this.state.timeout) {
+            clearTimeout(this.state.timeout)
+        }
+        this.setState({open: false, timeout: null});
+    };
 
+    postponedShowMenu = () => {this.state.timeout = setTimeout(() => {if (this.state.timeout) this.showMenu()}, 700) };
+    
     render() {
         const {getPhotos} = this.props.pageActions;
-        const {classes, user, page, loader} = this.props;
+        const {hideNewDialog} = this.props.mainMenuActions;
+        const mainMenuActions = this.props.mainMenuActions;
+        const {classes, user, page, global} = this.props;
 
         return <MuiThemeProvider theme={theme}>
             <div className={classes.root}>
@@ -117,9 +137,8 @@ class App extends Component<Props, State> {
 
                     <div className={classes.drawerHeader}>
                         <Toolbar className={classes.header}>
-                            <Typography type='title' color='inherit' className={classes.flex}>
-                            </Typography>
-                            <User name={user.name} />
+                            <Typography type='title' color='inherit' className={classes.flex}/>
+                            <User name={user.name}/>
                         </Toolbar>
                     </div>
 
@@ -129,15 +148,19 @@ class App extends Component<Props, State> {
                                 paper: this.state.open ? classes.drawerFull : classes.drawerMini,
                             }}
                     >
-                        <AppBar position='static' className={classes.appBar}>
-                            <MainMenuBar open={this.state.open} onShowMenu={this.showMenu} onHideMenu={this.hideMenu} />
-                        </AppBar>
-                        <MainMenu open={this.state.open} onHideMenu={this.hideMenu} />
+                        <div onMouseEnter={this.postponedShowMenu} onMouseLeave={this.hideMenu}>
+                            <AppBar position='static' className={classes.appBar}>
+                                <MainMenuBar open={this.state.open} onShowMenu={this.showMenu}
+                                             onHideMenu={this.hideMenu}/>
+                            </AppBar>
+                            <MainMenu open={this.state.open} onHideMenu={this.hideMenu} actions={mainMenuActions}/>
+                        </div>
                     </Drawer>
                     <main className={classes.content}>
-                        <Page photos={page.photos} year={page.year} getPhotos={getPhotos} fetching={loader.fetching}/>
+                        <Page photos={page.photos} year={page.year} getPhotos={getPhotos} fetching={global.fetching}/>
                     </main>
                 </div>
+                <CreateNewProjectDialog open={global.showNewDialog} onClose={hideNewDialog} />
             </div>
         </MuiThemeProvider>
     }
@@ -146,11 +169,12 @@ class App extends Component<Props, State> {
 const mapStateToProps = (state) => ({
     user: state.user,
     page: state.page,
-    loader: state.loader,
+    global: state.global,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    pageActions: bindActionCreators(pageActions, dispatch)
+    pageActions: bindActionCreators(pageActions, dispatch),
+    mainMenuActions: bindActionCreators(mainMenuActions, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(App));

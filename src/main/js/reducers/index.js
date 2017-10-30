@@ -4,10 +4,10 @@
 import {combineReducers} from 'redux'
 import page from './page'
 import user from './user'
-import loader from './loader'
+import global from './global'
 
 export default combineReducers({
-    loader,
+    user,
+    global,
     page,
-    user
 })

@@ -1,40 +1,44 @@
 // @flow
 'use strict';
 
+import type {ActionCreator} from 'redux'
+
 import React from 'react';
-import { withStyles } from 'material-ui/styles';
+import {withStyles} from 'material-ui/styles';
 import List, {ListItem, ListItemIcon, ListItemText} from 'material-ui/List';
 
-import InboxIcon from 'material-ui-icons/MoveToInbox';
-import DraftsIcon from 'material-ui-icons/Drafts';
-import SendIcon from 'material-ui-icons/Send';
+import CreateNewFolder from 'material-ui-icons/CreateNewFolder';
+import OpenInBrowser from 'material-ui-icons/OpenInBrowser';
+import Save from 'material-ui-icons/Save';
 
-const headerHeight = 64;
+import {HEADER_HEIGHT} from '../constants/Commons'
 
 const styles = () => ({
     mainMenu: {
         position: 'relative',
-        marginTop: headerHeight,
+        marginTop: HEADER_HEIGHT,
     },
 });
 
-const MainMenuItem = (props) => <ListItem button onClick={props.onClick} tabIndex={0}>
+const MainMenuItem = (props) => <ListItem style={{padding: 12}} button onClick={props.onClick} tabIndex={0}>
     <ListItemIcon>{props.icon}</ListItemIcon>
-    {props.open && <ListItemText inset primary={props.text} />}
+    {props.open && <ListItemText inset primary={props.text}/>}
 </ListItem>;
 
-type MainMenuProps = {
+type Props = {
     classes: any,
     open: boolean,
+    actions: ActionCreator<any, any>,
     onHideMenu: () => void,
 }
 
-const MainMenu = (props: MainMenuProps) => {
-    const { classes, open, onHideMenu } = props;
+const MainMenu = (props: Props) => {
+    const {showNewDialog} = props.actions;
+    const {classes, open, onHideMenu} = props;
     return ( <List className={classes.mainMenu}>
-                <MainMenuItem onClick={onHideMenu} open={open} icon={<SendIcon/>} text='Sent mail' />
-                <MainMenuItem onClick={onHideMenu} open={open} icon={<DraftsIcon/>} text='Drafts' />
-                <MainMenuItem onClick={onHideMenu} open={open} icon={<InboxIcon/>} text='Inbox' />
+                <MainMenuItem onClick={showNewDialog} open={open} icon={<CreateNewFolder/>} text='Create New'/>
+                <MainMenuItem onClick={onHideMenu} open={open} icon={<OpenInBrowser/>} text='Open Project'/>
+                <MainMenuItem onClick={onHideMenu} open={open} icon={<Save/>} text='Save'/>
             </List>
     );
 };
