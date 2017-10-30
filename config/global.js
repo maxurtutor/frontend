@@ -41,7 +41,7 @@ module.exports = function (PATHS) {
             path: PATHS.target,
             filename: `[name].${finalPackageName}.js`,
             chunkFilename: '[id].[chunkhash].js',
-            publicPath: PATHS.target
+            publicPath:  '/'
         },
         resolve: {
             extensions: ['.js', '.jsx', '.css', '.less'],

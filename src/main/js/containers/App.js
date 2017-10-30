@@ -18,7 +18,6 @@ import {lightGreen, purple, red} from 'material-ui/colors';
 
 import User from '../components/User'
 import Page from '../components/Page'
-import MainMenuBar from '../components/MainMenuBar'
 import MainMenu from '../components/MainMenu'
 import * as pageActions from '../actions/PageActions'
 
@@ -85,6 +84,10 @@ const styles = theme => ({
     flex: {
         flex: 1,
     },
+    flex2: {
+        flex: 1,
+        textAlign: 'center',
+    },
 });
 
 type Props = {
@@ -119,27 +122,30 @@ class App extends Component<Props, State> {
 
                     <div className={classes.drawerHeader}>
                         <Toolbar className={classes.header}>
-                            <Typography type='title' color='inherit' className={classes.flex}>
-                            </Typography>
-                            <User name={user.name} />
+                            <Typography type='title' color='inherit' className={classes.flex}/>
+                            <User name={user.name}/>
                         </Toolbar>
                     </div>
 
                     <Drawer
-                            type={'permanent'}
-                            onMouseEnter={this.showMenu}
-                            onMouseLeave={this.hideMenu}
-                            classes={{
-                                paper: this.state.open ? classes.drawerFull : classes.drawerMini,
-                            }}
+                        type={'permanent'}
+                        onMouseEnter={this.showMenu}
+                        onMouseLeave={this.hideMenu}
+                        classes={{
+                            paper: this.state.open ? classes.drawerFull : classes.drawerMini,
+                        }}
                     >
                         <AppBar position='static' className={classes.appBar}>
-                            <MainMenuBar open={this.state.open} onShowMenu={this.showMenu} onHideMenu={this.hideMenu} />
+                            <Toolbar>
+                                <img style={{width: 38, height: 57, marginLeft:-14}} src={logo}/>
+                                {this.state.open && <Typography type='title' color='inherit' className={classes.flex2}>
+                                    Frontend
+                                </Typography>}
+                            </Toolbar>
                         </AppBar>
-                        <MainMenu open={this.state.open} onHideMenu={this.hideMenu} />
+                        <MainMenu open={this.state.open} onHideMenu={this.hideMenu}/>
                     </Drawer>
                     <main className={classes.content}>
-                        <img style={{ width: 62, height: 92 }} src={logo}/>
                         <Page photos={page.photos} year={page.year} getPhotos={getPhotos} fetching={loader.fetching}/>
                     </main>
                 </div>
