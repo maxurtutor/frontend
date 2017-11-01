@@ -9,6 +9,8 @@
 ./flow
 
 [options]
+sharedmemory.hash_table_pow=21
+
 strip_root=true
 
 module.name_mapper='.*\(.css\)' -> 'CSSModule'

@@ -8,11 +8,13 @@ import React, {Component} from 'react'
 import {withStyles} from 'material-ui/styles';
 import List, {ListItem, ListItemIcon, ListItemText} from 'material-ui/List';
 
-import CreateNewFolder from 'material-ui-icons/CreateNewFolder';
-import OpenInBrowser from 'material-ui-icons/OpenInBrowser';
+
 import { CircularProgress } from 'material-ui/Progress';
 
+import CreateNewFolder from 'material-ui-icons/CreateNewFolder';
+import OpenInBrowser from 'material-ui-icons/OpenInBrowser';
 import Save from 'material-ui-icons/Save';
+import Delete from 'material-ui-icons/Delete';
 import Check from 'material-ui-icons/Check';
 
 import green from 'material-ui/colors/green';
@@ -102,7 +104,7 @@ export class MainMenu extends Component<Props, State> {
                                   disabled = {success || saving}
                                   icon={success ? <Check/> : <Save/>} text='Save All'/>
                     {saving && <CircularProgress size={50} className={classes.fabProgress} />}
-                    <MainMenuItem onClick={onHideMenu} open={open} icon={<OpenInBrowser/>} text='Delete Project...'/>
+                    <MainMenuItem onClick={onHideMenu} open={open} icon={<Delete/>} text='Delete Project...'/>
                 </List>
         );
     }
