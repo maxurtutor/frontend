@@ -3,13 +3,19 @@
 
 import type {ActionCreator} from 'redux'
 
-import React from 'react';
+import React, {Component} from 'react'
+
 import {withStyles} from 'material-ui/styles';
 import List, {ListItem, ListItemIcon, ListItemText} from 'material-ui/List';
 
 import CreateNewFolder from 'material-ui-icons/CreateNewFolder';
 import OpenInBrowser from 'material-ui-icons/OpenInBrowser';
+import { CircularProgress } from 'material-ui/Progress';
+
 import Save from 'material-ui-icons/Save';
+import Check from 'material-ui-icons/Check';
+
+import green from 'material-ui/colors/green';
 
 import {HEADER_HEIGHT} from '../constants/Commons'
 
@@ -18,12 +24,17 @@ const styles = () => ({
         position: 'relative',
         marginTop: HEADER_HEIGHT,
     },
+    fabProgress: {
+        color: green[500],
+        position: 'absolute',
+        top: 102,
+        left: -2,
+        zIndex: 1,
+    },
+    button: {
+        padding: 12,
+    },
 });
-
-const MainMenuItem = (props) => <ListItem style={{padding: 12}} button onClick={props.onClick} tabIndex={0}>
-    <ListItemIcon>{props.icon}</ListItemIcon>
-    {props.open && <ListItemText inset primary={props.text}/>}
-</ListItem>;
 
 type Props = {
     classes: any,
@@ -32,15 +43,69 @@ type Props = {
     onHideMenu: () => void,
 }
 
-const MainMenu = (props: Props) => {
-    const {showNewDialog} = props.actions;
-    const {classes, open, onHideMenu} = props;
-    return ( <List className={classes.mainMenu}>
-                <MainMenuItem onClick={showNewDialog} open={open} icon={<CreateNewFolder/>} text='Create New'/>
-                <MainMenuItem onClick={onHideMenu} open={open} icon={<OpenInBrowser/>} text='Open Project'/>
-                <MainMenuItem onClick={onHideMenu} open={open} icon={<Save/>} text='Save'/>
-            </List>
-    );
+type State = {
+    loading: boolean,
+    saving: boolean,
+    success: boolean,
 };
+
+const MainMenuItem = (props) => <ListItem tabIndex={0}
+                                          button
+                                          disabled = {props.disabled}
+                                          style={styles().button }
+                                          onClick={props.onClick} >
+    <ListItemIcon>{props.icon}</ListItemIcon>
+    {props.open && <ListItemText inset primary={props.text}/>}
+</ListItem>;
+
+export class MainMenu extends Component<Props, State> {
+
+    state = {
+        loading: false,
+        saving: false,
+        success: false,
+    };
+
+    componentWillUnmount() {
+        clearTimeout(this.timer);
+    }
+
+    save = () => {
+        if (!this.state.saving) {
+            this.setState(
+                    {
+                        success: false,
+                        saving: true,
+                    },
+                    () => {
+                        this.timer = setTimeout(() => {
+                            this.setState({
+                                saving: false,
+                                success: true,
+                            });
+                        }, 2000);
+                    },
+            );
+        }
+    };
+
+    timer = undefined;
+    
+    render() {
+        const {saving, success} = this.state;
+        const {showNewDialog} = this.props.actions;
+        const {classes, open, onHideMenu} = this.props;
+        return ( <List className={classes.mainMenu}>
+                    <MainMenuItem onClick={showNewDialog} open={open} icon={<CreateNewFolder/>} text='New Project...'/>
+                    <MainMenuItem onClick={onHideMenu} open={open} icon={<OpenInBrowser/>} text='Open Project...'/>
+                    <MainMenuItem onClick={this.save} open={open}
+                                  disabled = {success || saving}
+                                  icon={success ? <Check/> : <Save/>} text='Save All'/>
+                    {saving && <CircularProgress size={50} className={classes.fabProgress} />}
+                    <MainMenuItem onClick={onHideMenu} open={open} icon={<OpenInBrowser/>} text='Delete Project...'/>
+                </List>
+        );
+    }
+}
 
 export default withStyles(styles)(MainMenu);
