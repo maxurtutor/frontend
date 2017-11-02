@@ -4,7 +4,7 @@
 import {
     SHOW_LOADER,
     HIDE_LOADER,
-} from '../core/commons/Constants'
+} from '../constants/Commons'
 
 import {
     SHOW_NEW_DIALOG,
