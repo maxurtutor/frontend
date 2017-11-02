@@ -4,7 +4,7 @@
 import {
     SHOW_NEW_DIALOG,
     HIDE_NEW_DIALOG
-} from '../constants/Commons'
+} from '../constants/MainMenu'
 
 // noinspection JSUnusedGlobalSymbols
 export const showNewDialog = () => ({

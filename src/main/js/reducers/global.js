@@ -4,9 +4,12 @@
 import {
     SHOW_LOADER,
     HIDE_LOADER,
+} from '../core/commons/Constants'
+
+import {
     SHOW_NEW_DIALOG,
     HIDE_NEW_DIALOG
-} from '../constants/Commons'
+} from '../constants/MainMenu'
 
 type State = {
     fetching: number,

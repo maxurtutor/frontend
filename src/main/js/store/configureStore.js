@@ -5,7 +5,7 @@ import { createStore, applyMiddleware } from 'redux'
 import { createLogger } from 'redux-logger'
 import thunk from 'redux-thunk';
 import rootReducer from '../reducers'
-import promiseMiddleware from '../enhancers/PromiseMiddleware'
+import promiseMiddleware from '../core/enhancers/PromiseMiddleware'
 
 export default function configureStore(initialState?: any) {
     const logger = createLogger();
