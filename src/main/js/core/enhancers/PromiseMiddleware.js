@@ -15,7 +15,7 @@ const spread = (dispatch: Dispatch<*>, types: Array<string>, payload: any) => {
 
 const process = (action: PromiseAction, next, {dispatch}) => {
 
-    spread(dispatch, action.requestType, action, action.payload);
+    spread(dispatch, action.requestType, action.payload);
 
     action.fun()
             .then(response => {

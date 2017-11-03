@@ -128,7 +128,6 @@ class App extends Component<Props, State> {
     render() {
         const {getPhotos} = this.props.pageActions;
         const {hideNewDialog} = this.props.mainMenuActions;
-        const mainMenuActions = this.props.mainMenuActions;
         const {classes, user, page, global} = this.props;
 
         return <MuiThemeProvider theme={theme}>
@@ -153,7 +152,7 @@ class App extends Component<Props, State> {
                                 <MainMenuBar open={this.state.open} onShowMenu={this.showMenu}
                                              onHideMenu={this.hideMenu}/>
                             </AppBar>
-                            <MainMenu open={this.state.open} onHideMenu={this.hideMenu} actions={mainMenuActions}/>
+                            <MainMenu open={this.state.open} onHideMenu={this.hideMenu}/>
                         </div>
                     </Drawer>
                     <main className={classes.content}>

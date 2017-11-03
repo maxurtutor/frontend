@@ -5,11 +5,14 @@ import type {ActionCreator} from 'redux'
 
 import React, {Component} from 'react'
 
+import {bindActionCreators} from 'redux'
+
+import {connect} from 'react-redux'
+
 import {withStyles} from 'material-ui/styles';
 import List, {ListItem, ListItemIcon, ListItemText} from 'material-ui/List';
 
-
-import { CircularProgress } from 'material-ui/Progress';
+import {CircularProgress} from 'material-ui/Progress';
 
 import CreateNewFolder from 'material-ui-icons/CreateNewFolder';
 import OpenInBrowser from 'material-ui-icons/OpenInBrowser';
@@ -19,7 +22,17 @@ import Check from 'material-ui-icons/Check';
 
 import green from 'material-ui/colors/green';
 
+import {
+    NEW,
+    SAVING,
+    CLEAN,
+    CHANGED,
+    LOADING,
+} from '../constants/Project'
+
 import {HEADER_HEIGHT} from '../constants/Commons'
+
+import * as mainMenuActions from '../actions/MainMenuActions'
 
 const styles = () => ({
     mainMenu: {
@@ -43,71 +56,53 @@ type Props = {
     open: boolean,
     actions: ActionCreator<any, any>,
     onHideMenu: () => void,
+    state: NEW | SAVING | CLEAN | CHANGED | LOADING
 }
-
-type State = {
-    loading: boolean,
-    saving: boolean,
-    success: boolean,
-};
 
 const MainMenuItem = (props) => <ListItem tabIndex={0}
                                           button
-                                          disabled = {props.disabled}
-                                          style={styles().button }
-                                          onClick={props.onClick} >
+                                          disabled={props.disabled}
+                                          style={styles().button}
+                                          onClick={props.onClick}>
     <ListItemIcon>{props.icon}</ListItemIcon>
     {props.open && <ListItemText inset primary={props.text}/>}
 </ListItem>;
 
-export class MainMenu extends Component<Props, State> {
+export class MainMenu extends Component<Props> {
 
-    state = {
-        loading: false,
-        saving: false,
-        success: false,
-    };
-
-    componentWillUnmount() {
-        clearTimeout(this.timer);
+    save() {
+        if (this.isChanged()) {
+            this.props.actions.save();
+        }
     }
 
-    save = () => {
-        if (!this.state.saving) {
-            this.setState(
-                    {
-                        success: false,
-                        saving: true,
-                    },
-                    () => {
-                        this.timer = setTimeout(() => {
-                            this.setState({
-                                saving: false,
-                                success: true,
-                            });
-                        }, 2000);
-                    },
-            );
-        }
-    };
+    isChanged() {
+        return this.props.project.state === CHANGED || this.props.project.state === NEW;
+    }
 
-    timer = undefined;
-    
     render() {
-        const {saving, success} = this.state;
+        const {state} = this.props.project;
         const {showNewDialog} = this.props.actions;
         const {classes, open, onHideMenu} = this.props;
         return ( <List className={classes.mainMenu}>
                     <MainMenuItem onClick={showNewDialog} open={open} icon={<CreateNewFolder/>} text='New Project...'/>
                     <MainMenuItem onClick={onHideMenu} open={open} icon={<OpenInBrowser/>} text='Open Project...'/>
-                    <MainMenuItem onClick={this.save} open={open}
-                                  disabled = {success || saving}
-                                  icon={success ? <Check/> : <Save/>} text='Save All'/>
-                    {saving && <CircularProgress size={50} className={classes.fabProgress} />}
+                    <MainMenuItem onClick={() => this.save()} open={open}
+                                  disabled={!this.isChanged()}
+                                  icon={(this.isChanged()) ? <Save/> : <Check/>} text='Save All'/>
+                    {(state === SAVING) && <CircularProgress size={50} className={classes.fabProgress}/>}
                     <MainMenuItem onClick={onHideMenu} open={open} icon={<Delete/>} text='Delete Project...'/>
                 </List>
         );
     }
 }
 
-export default withStyles(styles)(MainMenu);
+const mapStateToProps = (state) => ({
+    project: state.project,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators(mainMenuActions, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(MainMenu));
