@@ -23,13 +23,7 @@ import Check from 'material-ui-icons/Check';
 import green from 'material-ui/colors/green';
 import CreateNewProjectDialog from '../components/CreateNewProjectDialog'
 
-import {
-    NEW,
-    SAVING,
-    CLEAN,
-    CHANGED,
-    LOADING,
-} from '../domain/Project'
+import Project, {SAVING} from '../domain/Project'
 
 import {HEADER_HEIGHT} from '../constants/Commons'
 
@@ -61,7 +55,6 @@ type Props = {
     open: boolean,
     actions: ActionCreator<any, any>,
     onHideMenu: () => void,
-    state: NEW | SAVING | CLEAN | CHANGED | LOADING
 }
 
 const MainMenuItem = (props) => <ListItem tabIndex={0}
@@ -85,10 +78,10 @@ export class MainMenu extends Component<Props, State> {
         }
     }
 
-    create() {
+    create(project: Project) {
         this.setState(
                 {showNewDialog: false},
-                () => this.props.actions.create()
+                () => this.props.actions.create(project)
         )
     }
 
@@ -106,7 +99,7 @@ export class MainMenu extends Component<Props, State> {
                     <MainMenuItem onClick={onHideMenu} open={open} icon={<Delete/>} text='Delete Project...'/>
                     <CreateNewProjectDialog open={this.state.showNewDialog}
                                             onClose={() => this.setState({showNewDialog: false})}
-                                            onCreate={() => this.create()} />
+                                            onCreate={(project) => this.create(project)} />
                 </List>
         );
     }

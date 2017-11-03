@@ -8,6 +8,8 @@ import {
     SAVE_PROJECT_ERROR,
 } from '../constants/MainMenu'
 
+import Project from '../domain/Project'
+
 import {PromiseAction} from '../core/commons/Types'
 
 import {saveProject} from '../services/ProjectService'
@@ -23,5 +25,5 @@ export const save : () => PromiseAction =
             );
 
 // noinspection JSUnusedGlobalSymbols
-export const create = () => ({type: CREATE_PROJECT});
+export const create = (project: Project) => ({type: CREATE_PROJECT, payload: {project} });
 

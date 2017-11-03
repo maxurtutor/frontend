@@ -126,7 +126,7 @@ class App extends Component<Props, State> {
     
     render() {
         const {getPhotos} = this.props.pageActions;
-        const {classes, user, page, global} = this.props;
+        const {classes, user, page, global, project} = this.props;
 
         return <MuiThemeProvider theme={theme}>
             <div className={classes.root}>
@@ -134,7 +134,9 @@ class App extends Component<Props, State> {
 
                     <div className={classes.drawerHeader}>
                         <Toolbar className={classes.header}>
-                            <Typography type='title' color='inherit' className={classes.flex}/>
+                            <Typography type='title' color='inherit' className={classes.flex}>
+                                {project.name}
+                            </Typography>
                             <User name={user.name}/>
                         </Toolbar>
                     </div>
@@ -166,6 +168,7 @@ const mapStateToProps = (state) => ({
     user: state.user,
     page: state.page,
     global: state.global,
+    project: state.project,
 });
 
 const mapDispatchToProps = (dispatch) => ({

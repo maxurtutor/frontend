@@ -10,7 +10,10 @@ import {
     SAVE_PROJECT_ERROR
 } from '../constants/MainMenu'
 
-type Action = {}
+type Action = {
+    type: string,
+    payload: ?any
+}
 
 const initialState: Project = new Project();
 
@@ -18,7 +21,7 @@ export default function project(state: Project = initialState, action: Action): 
 
     switch (action.type) {
         case CREATE_PROJECT:
-            return new Project();
+            return action.payload.project;
         case SAVE_PROJECT_REQUEST:
             return state.requestSave();
         case SAVE_PROJECT_SUCCESS:
