@@ -3,37 +3,28 @@
 
 import type {Dispatch} from 'redux';
 
-import {PromiseAction} from  '../commons/Types'
+import {PromiseAction} from '../commons/Types'
 
-const process = function (action: PromiseAction, next, store) {
-
-    const {dispatch} = store;
-
-    action.requestType.forEach(
+const spread = (dispatch: Dispatch<*>, types: Array<string>, payload: any) => {
+    types.forEach(
             type => dispatch({
-                ...action,
                 type: type,
-                payload: action.payload
+                payload: payload
             }));
+};
 
-    action.fun().then(
-        response => {
-            action.successType.forEach(
-                    type => dispatch({
-                        ...action,
-                        type: type,
-                        payload: response
-                    }));
-        })
-        .catch(error => {
-            console.log(error);
-            action.failureType.forEach(
-                    type => dispatch({
-                        ...action,
-                        type: type,
-                        payload: error
-                    }));
-        });
+const process = (action: PromiseAction, next, {dispatch}) => {
+
+    spread(dispatch, action.requestType, action, action.payload);
+
+    action.fun()
+            .then(response => {
+                spread(dispatch, action.successType, response);
+            })
+            .catch(error => {
+                console.log(error);
+                spread(dispatch, action.failureType, error);
+            });
 };
 
 const promiseMiddleware = (store: any) => (next: Dispatch<*>) => (action: any) =>
