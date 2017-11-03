@@ -21,6 +21,7 @@ import Delete from 'material-ui-icons/Delete';
 import Check from 'material-ui-icons/Check';
 
 import green from 'material-ui/colors/green';
+import CreateNewProjectDialog from '../components/CreateNewProjectDialog'
 
 import {
     NEW,
@@ -28,7 +29,7 @@ import {
     CLEAN,
     CHANGED,
     LOADING,
-} from '../constants/Project'
+} from '../domain/Project'
 
 import {HEADER_HEIGHT} from '../constants/Commons'
 
@@ -51,6 +52,10 @@ const styles = () => ({
     },
 });
 
+type State = {
+    showNewDialog: boolean
+}
+
 type Props = {
     classes: any,
     open: boolean,
@@ -68,30 +73,40 @@ const MainMenuItem = (props) => <ListItem tabIndex={0}
     {props.open && <ListItemText inset primary={props.text}/>}
 </ListItem>;
 
-export class MainMenu extends Component<Props> {
+export class MainMenu extends Component<Props, State> {
+
+    state = {
+        showNewDialog: false,
+    };
 
     save() {
-        if (this.isChanged()) {
+        if (this.props.project.isChanged()) {
             this.props.actions.save();
         }
     }
 
-    isChanged() {
-        return this.props.project.state === CHANGED || this.props.project.state === NEW;
+    create() {
+        this.setState(
+                {showNewDialog: false},
+                () => this.props.actions.create()
+        )
     }
 
     render() {
-        const {state} = this.props.project;
-        const {showNewDialog} = this.props.actions;
+        const project = this.props.project;
         const {classes, open, onHideMenu} = this.props;
         return ( <List className={classes.mainMenu}>
-                    <MainMenuItem onClick={showNewDialog} open={open} icon={<CreateNewFolder/>} text='New Project...'/>
+                    <MainMenuItem onClick={() => this.setState({showNewDialog: true})} open={open}
+                                  icon={<CreateNewFolder/>} text='New Project...'/>
                     <MainMenuItem onClick={onHideMenu} open={open} icon={<OpenInBrowser/>} text='Open Project...'/>
                     <MainMenuItem onClick={() => this.save()} open={open}
-                                  disabled={!this.isChanged()}
-                                  icon={(this.isChanged()) ? <Save/> : <Check/>} text='Save All'/>
-                    {(state === SAVING) && <CircularProgress size={50} className={classes.fabProgress}/>}
+                                  disabled={!project.isChanged()}
+                                  icon={(project.isChanged()) ? <Save/> : <Check/>} text='Save All'/>
+                    {(project.state === SAVING) && <CircularProgress size={50} className={classes.fabProgress}/>}
                     <MainMenuItem onClick={onHideMenu} open={open} icon={<Delete/>} text='Delete Project...'/>
+                    <CreateNewProjectDialog open={this.state.showNewDialog}
+                                            onClose={() => this.setState({showNewDialog: false})}
+                                            onCreate={() => this.create()} />
                 </List>
         );
     }

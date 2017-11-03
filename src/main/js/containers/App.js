@@ -18,12 +18,11 @@ import {lightGreen, purple, red} from 'material-ui/colors';
 
 import User from '../components/User'
 import Page from '../components/Page'
-import CreateNewProjectDialog from '../components/CreateNewProjectDialog'
+
 import MainMenuBar from '../components/MainMenuBar'
 import MainMenu from '../components/MainMenu'
 
 import * as pageActions from '../actions/PageActions'
-import * as mainMenuActions from '../actions/MainMenuActions'
 
 import {HEADER_HEIGHT} from '../constants/Commons'
 
@@ -127,7 +126,6 @@ class App extends Component<Props, State> {
     
     render() {
         const {getPhotos} = this.props.pageActions;
-        const {hideNewDialog} = this.props.mainMenuActions;
         const {classes, user, page, global} = this.props;
 
         return <MuiThemeProvider theme={theme}>
@@ -159,7 +157,6 @@ class App extends Component<Props, State> {
                         <Page photos={page.photos} year={page.year} getPhotos={getPhotos} fetching={global.fetching}/>
                     </main>
                 </div>
-                <CreateNewProjectDialog open={global.showNewDialog} onClose={hideNewDialog} />
             </div>
         </MuiThemeProvider>
     }
@@ -173,7 +170,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     pageActions: bindActionCreators(pageActions, dispatch),
-    mainMenuActions: bindActionCreators(mainMenuActions, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(App));

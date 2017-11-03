@@ -22,6 +22,7 @@ type Props = {
     classes: any,
     open: boolean,
     onClose: () => void,
+    onCreate: () => void,
 }
 
 const CreateNewProjectDialog = (props: Props) => {
@@ -45,7 +46,7 @@ const CreateNewProjectDialog = (props: Props) => {
                     <Button onClick={props.onClose} color='primary'>
                         Cancel
                     </Button>
-                    <Button onClick={props.onClose} color='primary'>
+                    <Button onClick={props.onCreate} color='primary'>
                         Create
                     </Button>
                 </DialogActions>
