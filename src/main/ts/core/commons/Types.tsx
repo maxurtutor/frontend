@@ -1,11 +1,14 @@
-// @flow
-'use strict';
-
-type ActionType = String | Array<String>;
+type ActionType = string | Array<string>;
 
 export class PromiseAction {
 
-    constructor(fun: () => Promise, requestType: ActionType, successType: ActionType, failureType: ActionType, payload: any) {
+    _requestType: string[];
+    _successType: string[];
+    _failureType: string[];
+    _payload: any;
+    _fun: () => Promise<any>;
+
+    constructor(fun: () => Promise<any>, requestType: ActionType, successType: ActionType, failureType: ActionType, payload: any) {
         this._requestType = Array.isArray(requestType) ?  requestType : [requestType];
         this._successType = Array.isArray(successType) ?  successType : [successType];
         this._failureType = Array.isArray(failureType) ?  failureType : [failureType];
@@ -17,16 +20,16 @@ export class PromiseAction {
         }
     }
 
-    get requestType(): Array<String> {
+    get requestType(): Array<string> {
         return this._requestType;
     }
-    get successType(): Array<String> {
+    get successType(): Array<string> {
         return this._successType;
     }
-    get failureType(): Array<String> {
+    get failureType(): Array<string> {
         return this._failureType;
     }
-    get fun(): () => Promise {
+    get fun(): () => Promise<any> {
         return this._fun;
     }
     get payload() {

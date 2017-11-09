@@ -1,7 +1,0 @@
-// @flow
-'use strict';
-
-export const CREATE_PROJECT = 'CREATE_PROJECT';
-export const SAVE_PROJECT_REQUEST = 'SAVE_PROJECT_REQUEST';
-export const SAVE_PROJECT_SUCCESS = 'SAVE_PROJECT_SUCCESS';
-export const SAVE_PROJECT_ERROR = 'SAVE_PROJECT_ERROR'; 
