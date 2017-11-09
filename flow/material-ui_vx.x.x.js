@@ -62,3 +62,11 @@ declare module 'material-ui/colors' {
     declare module .exports: any;
 }
 
+declare module 'material-ui/Input' {
+    declare module .exports: any;
+}
+
+
+declare module 'material-ui/Dialog' {
+    declare module .exports: any;
+}

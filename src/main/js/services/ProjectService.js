@@ -7,5 +7,5 @@ export const saveProject = (): Promise<any> => new Promise(
                 resolve();
             }, 1000)
         }
-).then(() => { (name: "Project")  }
+).then(() => {  }
 );

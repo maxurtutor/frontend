@@ -73,12 +73,14 @@ export class MainMenu extends Component<Props, State> {
     };
 
     save() {
+        this.props.onHideMenu();
         if (this.props.project.isChanged()) {
             this.props.actions.save();
         }
     }
 
     create(project: Project) {
+        this.props.onHideMenu();
         this.setState(
                 {showNewDialog: false},
                 () => this.props.actions.create(project)
