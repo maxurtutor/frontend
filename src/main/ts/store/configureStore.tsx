@@ -1,10 +1,10 @@
-///<reference types="webpack-env" />
+/// <reference types="webpack-env" />
 
-import { createStore, applyMiddleware } from 'redux'
-import { createLogger } from 'redux-logger'
-import thunk from 'redux-thunk';
-import rootReducer from '../reducers/combine'
-import promiseMiddleware from '../core/enhancers/PromiseMiddleware'
+import { applyMiddleware, createStore } from "redux";
+import { createLogger } from "redux-logger";
+import thunk from "redux-thunk";
+import promiseMiddleware from "../core/enhancers/PromiseMiddleware";
+import rootReducer from "../reducers/combine";
 
 export default function configureStore(initialState?: any) {
     const logger = createLogger();
@@ -14,10 +14,10 @@ export default function configureStore(initialState?: any) {
         applyMiddleware(thunk, promiseMiddleware, logger));
 
     if (module.hot) {
-        module.hot.accept('../reducers/combine', () => {
-           const nextRootReducer = (require('../reducers/combine'));
-            store.replaceReducer(nextRootReducer)
-        })
+        module.hot.accept("../reducers/combine", () => {
+           const nextRootReducer = (require("../reducers/combine"));
+           store.replaceReducer(nextRootReducer);
+        });
     }
-    return store
+    return store;
 }

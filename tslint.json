@@ -1,0 +1,19 @@
+{
+  "extends": "tslint:recommended",
+  "rules": {
+    "no-shadowed-variable": false,
+    "variable-name": [true, "allow-leading-underscore"],
+    "semicolon": [true, "always"],
+    "quotemark": [true, "double"],
+    "max-line-length": [true, 120],
+    "new-parens": true,
+    "interface-name": [true, "never-prefix"],
+    "no-arg": true,
+    "no-bitwise": true,
+    "no-conditional-assignment": true,
+    "no-consecutive-blank-lines": [true, 1]
+  },
+  "jsRules": {
+    "max-line-length": [true, 120]
+  }
+}

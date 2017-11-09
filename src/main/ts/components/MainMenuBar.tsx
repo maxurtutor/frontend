@@ -1,35 +1,34 @@
-import * as React from 'react';
+import * as React from "react";
 
-import Toolbar from 'material-ui/Toolbar';
-import Typography from 'material-ui/Typography';
-import IconButton from 'material-ui/IconButton';
+import IconButton from "material-ui/IconButton";
+import Toolbar from "material-ui/Toolbar";
+import Typography from "material-ui/Typography";
 
-import MenuIcon from 'material-ui-icons/Menu';
-import MenuClose from 'material-ui-icons/Close';
+import MenuClose from "material-ui-icons/Close";
+import MenuIcon from "material-ui-icons/Menu";
 
-import {StyleRulesCallback, withStyles} from 'material-ui/styles';
+import {StyleRulesCallback, withStyles} from "material-ui/styles";
 
-import {HEADER_HEIGHT} from '../constants/commons'
-
+import {HEADER_HEIGHT} from "../constants/commons";
 
 const styles: StyleRulesCallback<any> = () => ({
     toolbar: {
-        justifyContent: 'space-between',
+        justifyContent: "space-between",
         padding: 0,
-        minHeight: HEADER_HEIGHT
+        minHeight: HEADER_HEIGHT,
     },
     title: {
         flex: 1,
-        textAlign: 'center'
+        textAlign: "center",
     },
     menuButton: {},
 });
 
-type Props = {
-    classes?: any,
-    open: boolean,
-    onShowMenu: () => void,
-    onHideMenu: () => void,
+interface Props {
+    classes?: any;
+    open: boolean;
+    onShowMenu: () => void;
+    onHideMenu: () => void;
 }
 
 function MainMenuBar(props: Props) {
@@ -37,17 +36,17 @@ function MainMenuBar(props: Props) {
     return (
         <Toolbar className={classes.toolbar}>
             {!open && <IconButton className={classes.menuButton}
-                                  onClick={onShowMenu} color='contrast'
-                                  aria-label='Menu'>
+                                  onClick={onShowMenu} color="contrast"
+                                  aria-label="Menu">
                 <MenuIcon/>
             </IconButton>}
 
             {open && <IconButton className={classes.menuButton}
-                                 onClick={onHideMenu} color='contrast'
-                                 aria-label='Menu'>
+                                 onClick={onHideMenu} color="contrast"
+                                 aria-label="Menu">
                 <MenuClose/>
             </IconButton>}
-            {open && <Typography type='title' color='inherit' className={classes.title}>
+            {open && <Typography type="title" color="inherit" className={classes.title}>
                 Frontend
             </Typography>
             }

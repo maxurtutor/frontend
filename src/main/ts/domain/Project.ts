@@ -3,13 +3,13 @@ export enum State {
     Saving,
     Clean,
     Changed,
-    Loading
+    Loading,
 }
 
 export default class Project {
 
-    _name: string;
-    _state: State;
+    private _name: string;
+    private _state: State;
 
     constructor(name: string = "New Project", state: State = State.New) {
         this._name = name;
@@ -24,20 +24,19 @@ export default class Project {
         return this._state;
     }
 
-    isChanged() {
+    public isChanged() {
         return this._state === State.Changed || this._state === State.New;
     }
 
-    startSave(): Project {
+    public startSave(): Project {
         return new Project(this._name, State.Saving);
     }
 
-    finishSave(): Project {
+    public finishSave(): Project {
         return new Project(this._name, State.Clean);
     }
 
-    error(): Project {
+    public error(): Project {
         return new Project(this._name, State.Changed);
     }
-
 }

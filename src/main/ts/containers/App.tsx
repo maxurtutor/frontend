@@ -1,25 +1,25 @@
-import * as React from 'react'
-import {Component} from 'react'
+import * as React from "react";
+import {Component} from "react";
 
-import {bindActionCreators} from 'redux'
+import {bindActionCreators} from "redux";
 
-import {ActionCreator, connect, Dispatch} from 'react-redux'
+import {ActionCreator, connect, Dispatch} from "react-redux";
 
-import Drawer from 'material-ui/Drawer';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
-import Typography from 'material-ui/Typography';
+import AppBar from "material-ui/AppBar";
+import Drawer from "material-ui/Drawer";
+import Toolbar from "material-ui/Toolbar";
+import Typography from "material-ui/Typography";
 
-import {MuiThemeProvider, createMuiTheme, StyleRulesCallback} from 'material-ui/styles';
 import {WithStyles} from "material-ui";
-import {withStyles} from 'material-ui/styles';
+import {createMuiTheme, MuiThemeProvider, StyleRulesCallback} from "material-ui/styles";
+import {withStyles} from "material-ui/styles";
 
-import {lightGreen, purple, red} from 'material-ui/colors';
-import {HEADER_HEIGHT} from '../constants/commons'
+import {lightGreen, purple, red} from "material-ui/colors";
+import {HEADER_HEIGHT} from "../constants/commons";
 
 import Project from "../domain/Project";
 
-import MainMenuBar from '../components/MainMenuBar'
+import MainMenuBar from "../components/MainMenuBar";
 
 const drawerMiniWidth = 48;
 const drawerFullWidth = 240;
@@ -32,40 +32,40 @@ const theme = createMuiTheme({
     },
 });
 
-const styles: StyleRulesCallback<any> = theme => ({
+const styles: StyleRulesCallback<any> = (theme) => ({
     root: {
-        width: '100%',
+        width: "100%",
         height: `${window.innerHeight}px`,
         zIndex: 1,
-        overflow: 'hidden',
+        overflow: "hidden",
     },
     appFrame: {
-        position: 'relative',
-        width: '100%',
-        height: '100%',
+        position: "relative",
+        width: "100%",
+        height: "100%",
     },
     appBar: {
-        position: 'absolute',
-        height: HEADER_HEIGHT
+        position: "absolute",
+        height: HEADER_HEIGHT,
     },
     drawerMini: {
-        position: 'absolute',
-        height: '100%',
+        position: "absolute",
+        height: "100%",
         width: drawerMiniWidth,
-        display: 'flex',
+        display: "flex",
     },
     drawerFull: {
-        position: 'absolute',
-        height: '100%',
+        position: "absolute",
+        height: "100%",
         width: drawerFullWidth,
-        display: 'flex',
+        display: "flex",
     },
     drawerHeader: {
         ...theme.mixins.toolbar,
         width: `calc(100% - ${drawerMiniWidth}px)`,
         marginLeft: drawerMiniWidth,
 
-        height: HEADER_HEIGHT
+        height: HEADER_HEIGHT,
     },
 
     content: {
@@ -74,8 +74,8 @@ const styles: StyleRulesCallback<any> = theme => ({
         height: `calc(100% - ${HEADER_HEIGHT}px)`,
         width: `calc(100% - ${drawerMiniWidth}px - 48px)`,
         marginLeft: drawerMiniWidth,
-        [theme.breakpoints.up('sm')]: {
-            height: 'calc(100% - 64px)',
+        [theme.breakpoints.up("sm")]: {
+            height: "calc(100% - 64px)",
         },
     },
     flex: {
@@ -83,13 +83,13 @@ const styles: StyleRulesCallback<any> = theme => ({
     },
 });
 
-type Props = {
-    classes?: any,
-    project: Project
+interface Props {
+    classes?: any;
+    project: Project;
 }
 
-type State = {
-    open: boolean,
+interface State {
+    open: boolean;
     timeout?: any;
 }
 
@@ -100,28 +100,29 @@ class App extends Component<Props & WithStyles<any>, State> {
         this.state = {open: false, timeout: null};
     }
 
-    showMenu = () => {
+    public showMenu = () => {
         if (this.state.timeout) {
-            clearTimeout(this.state.timeout)
+            clearTimeout(this.state.timeout);
         }
         this.setState({open: true, timeout: null});
-    };
-    hideMenu = () => {
+    }
+
+    public hideMenu = () => {
         if (this.state.timeout) {
-            clearTimeout(this.state.timeout)
+            clearTimeout(this.state.timeout);
         }
         this.setState({open: false, timeout: null});
-    };
+    }
 
-    postponedShowMenu = () => {
+    public postponedShowMenu = () => {
         this.setState({
             timeout: setTimeout(() => {
-                if (this.state.timeout) this.showMenu()
-            }, 700)
+                if (this.state.timeout) { this.showMenu(); }
+            }, 700),
         });
-    };
+    }
 
-    render() {
+    public render() {
         const {classes, project}: Props = this.props;
 
         return <MuiThemeProvider theme={theme}>
@@ -130,20 +131,20 @@ class App extends Component<Props & WithStyles<any>, State> {
 
                     <div className={classes.drawerHeader}>
                         <Toolbar className={classes.header}>
-                            <Typography type='title' color='inherit' className={classes.flex}>
+                            <Typography type="title" color="inherit" className={classes.flex}>
                                 {project.name}
                             </Typography>
                         </Toolbar>
                     </div>
 
                     <Drawer
-                        type={'permanent'}
+                        type={"permanent"}
                         classes={{
                             paper: this.state.open ? classes.drawerFull : classes.drawerMini,
                         }}
                     >
                         <div onMouseEnter={this.postponedShowMenu} onMouseLeave={this.hideMenu}>
-                            <AppBar position='static' className={classes.appBar}>
+                            <AppBar position="static" className={classes.appBar}>
                                 <MainMenuBar open={this.state.open}
                                              onShowMenu={this.showMenu}
                                              onHideMenu={this.hideMenu}/>
@@ -154,7 +155,7 @@ class App extends Component<Props & WithStyles<any>, State> {
                     </main>
                 </div>
             </div>
-        </MuiThemeProvider>
+        </MuiThemeProvider>;
     }
 }
 

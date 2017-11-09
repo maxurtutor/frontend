@@ -1,12 +1,9 @@
-import {PromiseAction} from '../commons/Types'
 import {Dispatch} from "react-redux";
+import {PromiseAction} from "../commons/Types";
 
-const spread = (dispatch: Dispatch<any>, types: Array<string>, payload: any) => {
+const spread = (dispatch: Dispatch<any>, types: string[], payload: any) => {
     types.forEach(
-        type => dispatch({
-            type: type,
-            payload: payload
-        }));
+        (type) => dispatch({ type, payload }));
 };
 
 const process = (action: PromiseAction, next: Dispatch<any>, {dispatch}: { dispatch: Dispatch<any> }) => {
@@ -14,11 +11,10 @@ const process = (action: PromiseAction, next: Dispatch<any>, {dispatch}: { dispa
     spread(dispatch, action.requestType, action.payload);
 
     action.fun()
-        .then(response => {
+        .then((response) => {
             spread(dispatch, action.successType, response);
         })
-        .catch(error => {
-            console.log(error);
+        .catch((error) => {
             spread(dispatch, action.failureType, error);
         });
 };
