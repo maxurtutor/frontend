@@ -9,13 +9,11 @@ import MenuIcon from "material-ui-icons/Menu";
 
 import {StyleRulesCallback, withStyles} from "material-ui/styles";
 
-import {HEADER_HEIGHT} from "../constants/commons";
-
 const styles: StyleRulesCallback<any> = () => ({
     toolbar: {
         justifyContent: "space-between",
         padding: 0,
-        minHeight: HEADER_HEIGHT,
+        minHeight: 48,
     },
     title: {
         flex: 1,
@@ -27,14 +25,16 @@ const styles: StyleRulesCallback<any> = () => ({
 interface Props {
     classes?: any;
     open: boolean;
+    minHeight?: string | number;
     onShowMenu: () => void;
     onHideMenu: () => void;
 }
 
 function MainMenuBar(props: Props) {
-    const {classes, open, onShowMenu, onHideMenu} = props;
+    const {classes, open, onShowMenu, onHideMenu, minHeight} = props;
+    const toolbarStyle = minHeight ? {minHeight} : {};
     return (
-        <Toolbar className={classes.toolbar}>
+        <Toolbar className={classes.toolbar} style={toolbarStyle}>
             {!open && <IconButton className={classes.menuButton}
                                   onClick={onShowMenu} color="contrast"
                                   aria-label="Menu">

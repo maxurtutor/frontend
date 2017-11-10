@@ -8,9 +8,10 @@
 *.iml
 
 build
-flow-typed
 node_modules
 package-lock.json
 
 __snapshots__
 
+tslint/
+yarn-error.log

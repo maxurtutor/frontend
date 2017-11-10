@@ -8,19 +8,21 @@ import {ActionCreator, connect, Dispatch} from "react-redux";
 import AppBar from "material-ui/AppBar";
 import Drawer from "material-ui/Drawer";
 import Toolbar from "material-ui/Toolbar";
-import Typography from "material-ui/Typography";
 
 import {WithStyles} from "material-ui";
 import {createMuiTheme, MuiThemeProvider, StyleRulesCallback} from "material-ui/styles";
 import {withStyles} from "material-ui/styles";
 
 import {lightGreen, purple, red} from "material-ui/colors";
-import {HEADER_HEIGHT} from "../constants/commons";
-
-import Project from "../domain/Project";
 
 import MainMenuBar from "../components/MainMenuBar";
+import ProjectBar from "../components/ProjectBar";
+import UserBar from "../components/UserBar";
 
+import Project from "../domain/Project";
+import User from "../domain/User";
+
+const headerHeight = 64;
 const drawerMiniWidth = 48;
 const drawerFullWidth = 240;
 
@@ -46,7 +48,8 @@ const styles: StyleRulesCallback<any> = (theme) => ({
     },
     appBar: {
         position: "absolute",
-        height: HEADER_HEIGHT,
+        height: headerHeight,
+        minHeight: headerHeight,
     },
     drawerMini: {
         position: "absolute",
@@ -65,31 +68,29 @@ const styles: StyleRulesCallback<any> = (theme) => ({
         width: `calc(100% - ${drawerMiniWidth}px)`,
         marginLeft: drawerMiniWidth,
 
-        height: HEADER_HEIGHT,
+        height: headerHeight,
     },
 
     content: {
         backgroundColor: theme.palette.background.default,
         padding: theme.spacing.unit * 3,
-        height: `calc(100% - ${HEADER_HEIGHT}px)`,
+        height: `calc(100% - ${headerHeight}px)`,
         width: `calc(100% - ${drawerMiniWidth}px - 48px)`,
         marginLeft: drawerMiniWidth,
         [theme.breakpoints.up("sm")]: {
             height: "calc(100% - 64px)",
         },
     },
-    flex: {
-        flex: 1,
-    },
 });
 
 interface Props {
     classes?: any;
     project: Project;
+    user: User;
 }
 
 interface State {
-    open: boolean;
+    menuIsOpened: boolean;
     timeout?: any;
 }
 
@@ -97,33 +98,36 @@ class App extends Component<Props & WithStyles<any>, State> {
 
     constructor(props: Props & WithStyles<any>) {
         super(props);
-        this.state = {open: false, timeout: null};
+        this.state = {menuIsOpened: false, timeout: null};
     }
 
     public showMenu = () => {
         if (this.state.timeout) {
             clearTimeout(this.state.timeout);
         }
-        this.setState({open: true, timeout: null});
+        this.setState({menuIsOpened: true, timeout: null});
     }
 
     public hideMenu = () => {
         if (this.state.timeout) {
             clearTimeout(this.state.timeout);
         }
-        this.setState({open: false, timeout: null});
+        this.setState({menuIsOpened: false, timeout: null});
     }
 
     public postponedShowMenu = () => {
         this.setState({
             timeout: setTimeout(() => {
-                if (this.state.timeout) { this.showMenu(); }
+                if (this.state.timeout) {
+                    this.showMenu();
+                }
             }, 700),
         });
     }
 
     public render() {
-        const {classes, project}: Props = this.props;
+        const {classes, project, user}: Props = this.props;
+        const menuIsOpened = this.state.menuIsOpened;
 
         return <MuiThemeProvider theme={theme}>
             <div className={classes.root}>
@@ -131,21 +135,19 @@ class App extends Component<Props & WithStyles<any>, State> {
 
                     <div className={classes.drawerHeader}>
                         <Toolbar className={classes.header}>
-                            <Typography type="title" color="inherit" className={classes.flex}>
-                                {project.name}
-                            </Typography>
+                            <ProjectBar project={project}/>
+                            <UserBar user={user}/>
                         </Toolbar>
                     </div>
 
                     <Drawer
                         type={"permanent"}
-                        classes={{
-                            paper: this.state.open ? classes.drawerFull : classes.drawerMini,
-                        }}
+                        classes={{paper: menuIsOpened ? classes.drawerFull : classes.drawerMini}}
                     >
                         <div onMouseEnter={this.postponedShowMenu} onMouseLeave={this.hideMenu}>
                             <AppBar position="static" className={classes.appBar}>
-                                <MainMenuBar open={this.state.open}
+                                <MainMenuBar open={menuIsOpened}
+                                             minHeight={headerHeight}
                                              onShowMenu={this.showMenu}
                                              onHideMenu={this.hideMenu}/>
                             </AppBar>
@@ -161,6 +163,7 @@ class App extends Component<Props & WithStyles<any>, State> {
 
 const mapStateToProps = (state: any) => ({
     project: state.project,
+    user: state.user,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({});
