@@ -1,11 +1,23 @@
 {
   "compilerOptions": {
     "outDir": "./build/",
-    "sourceMap": true,
-    "noImplicitAny": true,
-    "module": "commonjs",
+    "module": "esnext",
     "target": "es5",
-    "jsx": "react"
+    "lib": ["es6", "dom"],
+    "sourceMap": true,
+    "allowJs": true,
+    "jsx": "react",
+    "moduleResolution": "node",
+    "rootDir": "src/main/ts",
+
+    "noImplicitAny": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "noUnusedLocals": true
+
   },
   "include": [
     "./src/main/ts/**/*"

@@ -1,12 +1,12 @@
-import * as React from "react";
-import {Component} from "react";
+import * as React from 'react';
+import {Component} from 'react';
 
-import {WithStyles} from "material-ui";
-import {StyleRulesCallback, withStyles} from "material-ui/styles";
+import {WithStyles} from 'material-ui';
+import {StyleRulesCallback, withStyles} from 'material-ui/styles';
 
-import Typography from "material-ui/Typography";
+import Typography from 'material-ui/Typography';
 
-import Project from "../domain/Project";
+import Project from '../domain/Project';
 
 const styles: StyleRulesCallback<any> = () => ({
     flex: {

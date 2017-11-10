@@ -1,18 +1,18 @@
-import * as React from "react";
-import {Component, MouseEventHandler} from "react";
+import * as React from 'react';
+import {Component, MouseEventHandler} from 'react';
 
-import {WithStyles} from "material-ui";
-import {StyleRulesCallback, withStyles} from "material-ui/styles";
+import {WithStyles} from 'material-ui';
+import {StyleRulesCallback, withStyles} from 'material-ui/styles';
 
-import Avatar from "material-ui/Avatar";
-import Button from "material-ui/Button";
-import Menu from "material-ui/Menu";
-import {MenuItem} from "material-ui/Menu";
-import Typography from "material-ui/Typography";
+import Avatar from 'material-ui/Avatar';
+import Button from 'material-ui/Button';
+import Menu from 'material-ui/Menu';
+import {MenuItem} from 'material-ui/Menu';
+import Typography from 'material-ui/Typography';
 
-import PersonIcon from "material-ui-icons/Person";
+import PersonIcon from 'material-ui-icons/Person';
 
-import User from "../domain/User";
+import User from '../domain/User';
 
 const styles: StyleRulesCallback<any> = (theme) => ({
     button: {
@@ -41,7 +41,6 @@ export class UserBar extends Component<Props & WithStyles<any>, State> {
     constructor(props: Props & WithStyles<any>) {
         super(props);
         this.state = {
-            anchorEl: null,
             open: false,
         };
     }
@@ -60,7 +59,7 @@ export class UserBar extends Component<Props & WithStyles<any>, State> {
             <div>
                 <Button className={classes.button}
                         color="contrast"
-                        aria-owns={this.state.open ? "simple-menu" : null}
+                        aria-owns={this.state.open ? 'simple-menu' : null}
                         aria-haspopup={true}
                         onClick={this.handleClick}
                 >

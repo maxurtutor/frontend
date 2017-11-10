@@ -11,7 +11,7 @@ export default class Project {
     private _name: string;
     private _state: State;
 
-    constructor(name: string = "New Project", state: State = State.New) {
+    constructor(name: string = 'New Project', state: State = State.New) {
         this._name = name;
         this._state = state;
     }
@@ -26,6 +26,10 @@ export default class Project {
 
     public isChanged() {
         return this._state === State.Changed || this._state === State.New;
+    }
+
+    public isSaving() {
+        return this._state === State.Saving;
     }
 
     public startSave(): Project {

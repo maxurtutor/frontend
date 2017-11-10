@@ -19,8 +19,8 @@ export class PromiseAction {
         this._fun = fun;
         this._payload = payload;
 
-        if (typeof fun !== "function") {
-            throw new Error("Expected fun to be a function.");
+        if (typeof fun !== 'function') {
+            throw new Error('Expected fun to be a function.');
         }
     }
 

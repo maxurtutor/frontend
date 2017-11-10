@@ -1,5 +1,5 @@
-import {Dispatch} from "react-redux";
-import {PromiseAction} from "../commons/Types";
+import {Dispatch} from 'react-redux';
+import {PromiseAction} from '../commons/Types';
 
 const spread = (dispatch: Dispatch<any>, types: string[], payload: any) => {
     types.forEach(
