@@ -71,7 +71,7 @@ interface Props {
     classes?: any;
     open: boolean;
     project: Project;
-    actions: ActionCreator<any>;
+    actions?: ActionCreator<any>;
     onHideMenu: () => void;
 }
 
@@ -100,19 +100,21 @@ export class MainMenu extends Component<Props & WithStyles<any>, State> {
         return (
             <List className={classes.mainMenu}>
                 <MainMenuItem
+                    classes={classes}
                     onClick={() => this.setState({showNewDialog: true})}
                     open={open}
                     icon={<CreateNewFolder/>}
                     text="New Project..."
                 />
                 <MainMenuItem
-                    onClick={() => this.setState({showNewDialog: true})}
+                    classes={classes}
+                    onClick={onHideMenu}
                     open={open}
-                    icon={<CreateNewFolder/>}
-                    text="New Project..."
+                    icon={<OpenInBrowser/>}
+                    text="Open Project..."
                 />
-                <MainMenuItem onClick={onHideMenu} open={open} icon={<OpenInBrowser/>} text="Open Project..."/>
                 <MainMenuItem
+                    classes={classes}
                     onClick={() => this.save()}
                     open={open}
                     disabled={!project.isChanged()}
@@ -120,7 +122,13 @@ export class MainMenu extends Component<Props & WithStyles<any>, State> {
                     text="Save All"
                 />
                 {project.isSaving() && <CircularProgress size={50} className={classes.fabProgress}/>}
-                <MainMenuItem onClick={onHideMenu} open={open} icon={<Delete/>} text="Delete Project..."/>
+                <MainMenuItem
+                    classes={classes}
+                    onClick={onHideMenu}
+                    open={open}
+                    icon={<Delete/>}
+                    text="Delete Project..."
+                />
             </List>
         );
         /*        return <List className={classes.mainMenu}>

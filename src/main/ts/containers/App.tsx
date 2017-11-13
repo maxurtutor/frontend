@@ -10,10 +10,8 @@ import Drawer from 'material-ui/Drawer';
 import Toolbar from 'material-ui/Toolbar';
 
 import {WithStyles} from 'material-ui';
-import {createMuiTheme, MuiThemeProvider, StyleRulesCallback} from 'material-ui/styles';
+import {StyleRulesCallback} from 'material-ui/styles';
 import {withStyles} from 'material-ui/styles';
-
-import {lightGreen, purple, red} from 'material-ui/colors';
 
 import MainMenu from '../components/MainMenu';
 import MainMenuBar from '../components/MainMenuBar';
@@ -22,20 +20,13 @@ import UserBar from '../components/UserBar';
 
 import Project from '../domain/Project';
 import User from '../domain/User';
+import withRoot from '../core/components/withRoot';
 
 const headerHeight = 64;
 const drawerMiniWidth = 48;
 const drawerFullWidth = 240;
 
-const theme = createMuiTheme({
-    palette: {
-        primary: lightGreen,
-        secondary: purple,
-        error: red,
-    },
-});
-
-const styles: StyleRulesCallback<any> = (currentTheme) => ({
+const styles: StyleRulesCallback<any> = (theme) => ({
     root: {
         width: `100%`,
         height: `${window.innerHeight}px`,
@@ -65,7 +56,7 @@ const styles: StyleRulesCallback<any> = (currentTheme) => ({
         display: 'flex',
     },
     drawerHeader: {
-        ...currentTheme.mixins.toolbar,
+        ...theme.mixins.toolbar,
         width: `calc(100% - ${drawerMiniWidth}px)`,
         marginLeft: drawerMiniWidth,
 
@@ -73,12 +64,12 @@ const styles: StyleRulesCallback<any> = (currentTheme) => ({
     },
 
     content: {
-        backgroundColor: currentTheme.palette.background.default,
-        padding: currentTheme.spacing.unit * 3,
+        backgroundColor: theme.palette.background.default,
+        padding: theme.spacing.unit * 3,
         height: `calc(100% - ${headerHeight}px)`,
         width: `calc(100% - ${drawerMiniWidth}px - 48px)`,
         marginLeft: drawerMiniWidth,
-        [currentTheme.breakpoints.up('sm')]: {
+        [theme.breakpoints.up('sm')]: {
             height: 'calc(100% - 64px)',
         },
     },
@@ -131,7 +122,6 @@ class App extends Component<Props & WithStyles<any>, State> {
         const isMenuOpened = this.state.isMenuOpened;
 
         return (
-            <MuiThemeProvider theme={theme}>
                 <div className={classes.root}>
                     <div className={classes.appFrame}>
 
@@ -161,7 +151,6 @@ class App extends Component<Props & WithStyles<any>, State> {
                         <main className={classes.content}/>
                     </div>
                 </div>
-            </MuiThemeProvider>
         );
     }
 }
@@ -173,4 +162,4 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(App));
+export default withRoot(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(App)));
