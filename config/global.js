@@ -27,7 +27,7 @@ module.exports = function (PATHS) {
         output: {
             path: PATHS.target,
             filename: `[name].${finalPackageName}.js`,
-            publicPath: './'
+            publicPath: '/'
         },
         resolve: {
             extensions: ['.ts', '.tsx', '.js', '.jsx', '.css', '.less'],
