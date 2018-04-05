@@ -1,0 +1,30 @@
+{
+  "name": "spa",
+  "version": "1.0.0",
+  "description": "Frontend Template",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack --config webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maxurtutor/frontend.git"
+  },
+  "keywords": [
+    "spa",
+    "webpack",
+    "react",
+    "redux",
+    "npm"
+  ],
+  "author": "Maxim Yunusov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/maxurtutor/frontend/issues"
+  },
+  "homepage": "https://github.com/maxurtutor/frontend#readme",
+  "devDependencies": {
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.0.14"
+  }
+}
