@@ -7,8 +7,7 @@
       }
     ],
     "stage-0",
-    "react",
-    "flow"
+    "react"
   ],
   "env": {
     "test": {
@@ -23,7 +22,6 @@
     }
   },
   "plugins": [
-    "syntax-flow",
     "transform-runtime",
     "transform-flow-strip-types",
     "transform-flow-comments",
