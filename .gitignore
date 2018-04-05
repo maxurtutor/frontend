@@ -1,12 +1,13 @@
 .*
 
-!.gitignore
-!.eslintrc
-
 node_modules
 
 /yarn.lock
 /yarn-error.log
-/dist/*.*
 
 
+!/.eslintrc
+!/.stylelintrc
+!/.gitignore
+
+dist/
