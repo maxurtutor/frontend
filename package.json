@@ -2,9 +2,10 @@
   "name": "spa",
   "version": "1.0.0",
   "description": "Frontend Template",
-  "main": "index.js",
+  "private": true,
   "scripts": {
-    "start": "webpack --config webpack.config.js"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -24,7 +25,12 @@
   },
   "homepage": "https://github.com/maxurtutor/frontend#readme",
   "devDependencies": {
+    "babel-eslint": "^8.2.2",
+    "eslint": "^4.19.1",
     "webpack": "^4.5.0",
     "webpack-cli": "^2.0.14"
+  },
+  "dependencies": {
+    "lodash": "^4.17.5"
   }
 }
